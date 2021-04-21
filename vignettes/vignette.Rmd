@@ -1,0 +1,23 @@
+---
+title: "vignette"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+Use this package to import simulation data saved by the `speciome` program into R-friendly objects.
+
+```{r setup}
+library(speciomer)
+```
+
+First we import some data.

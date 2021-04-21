@@ -1,0 +1,48 @@
+Parameters were read in succesfully.
+Simulation started.
+Simulation ended.
+
+
+###############################################################################
+Peregrine Cluster
+Job 14201550 for user 'p278834'
+Finished at: Thu Sep 24 13:44:28 CEST 2020
+
+Job details:
+============
+
+Job ID              : 14201550
+Name                : job.sh
+User                : p278834
+Partition           : regular
+Nodes               : pg-node128
+Number of Nodes     : 1
+Cores               : 1
+State               : COMPLETED
+Submit              : 2020-09-24T12:02:59
+Start               : 2020-09-24T12:38:52
+End                 : 2020-09-24T13:44:27
+Reserved walltime   : 01:30:00
+Used walltime       : 01:05:35
+Used CPU time       : 01:05:30 (efficiency: 99.87%)
+% User (Computation): 99.75%
+% System (I/O)      :  0.26%
+Mem reserved        : 32G/node
+Max Mem used        : 70.60M (pg-node128)
+Max Disk Write      : 0.00  (pg-node128)
+Max Disk Read       : 51.20K (pg-node128)
+Hints and tips      :
+ 1) You requested much more memory than your program used.
+    Please reduce the requested amount of memory.
+ *) For more information on these issues see:
+    https://wiki.hpc.rug.nl/peregrine/additional_information/job_hints
+
+
+Acknowledgements:
+=================
+
+Please see this page for information about acknowledging Peregrine in your publications:
+
+https://wiki.hpc.rug.nl/peregrine/additional_information/scientific_output
+
+################################################################################

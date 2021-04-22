@@ -1,5 +1,5 @@
 ---
-title: "vignette"
+title: "speciomer: getting speciome data into R"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{vignette}
@@ -14,10 +14,158 @@ knitr::opts_chunk$set(
 )
 ```
 
-Use this package to import simulation data saved by the `speciome` program into R-friendly objects.
+Use this package to import simulation data saved by the `speciome` program into R-friendly objects. Here we introduce the most important functions to give a gist of how to handle this type of data. The purpose of the package is mostly to import the binary data saved during the simulation into tibbles, which can then be handled using the `tidyverse` (or other tools) in R.
 
 ```{r setup}
 library(speciomer)
+library(tidyverse)
 ```
 
-First we import some data.
+The `inst/extdata` folder contains example simulation data.
+
+```{r}
+list.files("../inst/extdata")
+```
+
+## Read a simulation
+
+Let us focus on one particlar simulation:
+
+```{r}
+sim <- "../inst/extdata/sim1"
+```
+
+Use the `read_sim` function to read the data of a simulation into one tibble. We can use it, for example, to know whether speciation happened in a simulation by reading the degrees of ecological, spatial and reproductive isolation:
+
+```{r}
+read_sim(sim, variables = c("EI", "SI", "RI"))
+```
+Now that the data is in an R-friendly tibble, we can proceed onto all kinds of analyses and plotting, for example:
+
+```{r, fig.width=5}
+read_sim(sim, variables = c("EI", "RI", "SI")) %>%
+  pivot_longer(cols = c("EI", "RI", "SI")) %>%
+  mutate(
+    name = fct_recode(
+      name,
+      !!!c(Ecological = "EI", Reproductive = "RI", Spatial = "SI")
+    )
+  ) %>%
+  ggplot(aes(x = time, y = value, color = name)) +
+  geom_line() +
+  theme_classic() +
+  scale_color_manual(values = c("lightgreen", "lightblue", "coral")) +
+  xlab("Time (generations)") +
+  ylab("Level of isolation") +
+  labs(color = "Type") +
+  ggtitle("Various isolation metrics through time")
+```
+
+**Note** that once the data are in a tibble, data manipulation and plotting does not require any specific `speciomer` function and can be done using your favorite R tools (e.g. the `tidyverse`). For these reasons the previous plot will be the only example of down-the-line analyses in this vignette, as there are too many ways in which the data of the simulations could be processed and these analyses are typically out of the scope of `speciomer`. In other words, `speciomer` provides the tools to import the data into R, use your creativity and other state-of-the-art packages for data manipulation and plotting to do the rest!
+
+## Read individual data
+
+Now, this all works fine if we want to read variables that have one value per time point. But what if we want to visualize, for example, the phenotypes of each individual in the population? Then we have one value per trait, per individual and per time point. For these individual-level data we use:
+
+```{r}
+read_pop(sim, variables = "individual_trait", by = 3)
+```
+
+Here the `by` argument tells the function that there are three values per individual, and so the content of `individual_trait.dat` must be split into three columns.
+
+It is possible to add more individual-level variables, such as which ecotype each individual belongs to:
+
+```{r}
+read_pop(
+  sim, variables = c("individual_ecotype", "individual_trait"), by = c(1, 3)
+)
+```
+
+Then, we have to provide one value of `by` for each data file we want to read. There is one ecotype per individual in `individual_ecotype.dat` and three trait values per individual in `individual_trait.dat`, so `by = c(1, 3)`.
+
+## Read genome-wide data
+
+`speciome` simulates evolution with explicit genomes, so what if we want to see, for example, Fst data for across all loci and through time? We use `read_genome` for that:
+
+```{r}
+read_genome(sim, variables = "genome_Fst")
+```
+
+Now that is great, but we may not remember which gene codes for what and with what intensity. Unlike Fst, which can change through time in a simulation, these details are not variables but fixed parameters of the genetic architecture. We can find them in the architecture file, provided we saved it with the simulation:
+
+```{r}
+read_arch_genome(sim, "architecture.txt")
+```
+
+This tibble contains all kinds of information about the genetic architecture on a per-locus basis.
+
+Of course we can load both the genetic variables through time and the genetic architecture together in one go, using:
+
+```{r}
+read_genome(
+  sim, "genome_Fst", architecture = TRUE, archfile = "architecture.txt"
+)
+```
+
+## Read gene networks
+
+Now, in `speciome` the genetic architecture does not only consist of locus-specific parameters but also of edge-specific parameters, across the edges of the three gene networks. You can access these with:
+
+```{r}
+read_arch_network(sim, "architecture.txt", as_list = TRUE)$edges
+```
+
+Here are recorded the details for each edge, identified by the indexes of the two partner loci (`from` and `to`). The argument `as_list` forces the output to be a list of two tibbles: (1) `nodes`, which contains all locus-specific parameters (basically the output of `read_arch_genome`) and (2) `edges`, which we have returned here. So, `read_arch_network` can be used to retrieve locus-specific *and* edge-specific parameters. Note that if `as_list` is `FALSE` the output is a `tbl_graph` object (from the `tidygraph` package), which can be useful for plotting networks using `ggraph` for example.
+
+It is also possible to read edge-wise data from a simulation. For example, to read, for each edge through time, the correlation in breeding value between the partner loci, use:
+
+```{r}
+read_network(sim, variables = "network_corbreed", architecture = TRUE)
+```
+
+Under the hood the functions `read_genome`, `read_network`, `read_pop` and `read_sim` all call another function, `read_data`, to read the binary `.dat` files containing the simulation output. It is just that these wrappers around `read_data` organize the output tibble in a specific way to provide observations on a per-locus-per-time-point, per-edge-per-time-point, per-individual-per-time-point or only a per-time-point basis, respectively.
+
+## Read whole individual genomes
+
+You may also want to read data recorded for each locus in each individual through time, e.g. whole individual genomes. Beware that these data can take up a huge amount of space (if there are many loci, many individuals and many time points).
+
+```{r}
+sim_ind_genomes <- "../inst/extdata/sim-indiv-genomes/"
+read_indiv_loci(sim_ind_genomes, nloci = 90)
+```
+
+The resulting tibble contains, for each locus in each individual, the allele at each haplotype, the time point when this data was recorded, the allele count (number of 1-alleles) and the genetic value of that locus in that individual. By default locus-specific parameters of the genetic architecture will be appended (you can turn this off by setting `architecture = FALSE`). The `extra` argument allows to append more individual-level variables, such as the ecotype of each individual (`extra = "individual_ecotype"`).
+
+## Multiple simulations
+
+If you want to load multiple simulations you can loop through simulation folders with regular for-loops or `purrr::map`-like functions, but we also provide a few utilities for that.
+
+To combine data from multiple simulations into a single tibble, for example, use `combine_data`:
+
+```{r}
+sims <- paste0("../inst/extdata/sim", 1:3)
+combine_data(sims, type = "sim", variables = "EI")
+```
+The output is similar to when we read in ecological divergence through time using `read_sim`, except this time we are combining these data for three different simulations (indicated by column `sim`). We can use that, for example, to see which simulations ended with differentiated ecotypes (i.e. high values of `EI`):
+
+```{r}
+combine_data(sims, type = "sim", variables = "EI") %>%
+  group_by(sim) %>%
+  summarize(EI = last(EI))
+```
+The different simulations we read may have different parameter values, and we may want to append this to the tibble. For example, to add the number of loci in each simulation we run:
+
+```{r}
+combine_data(
+  sims, type = "sim", variables = "EI", parnames = "nvertices", 
+  parfile = "parameters.txt"
+)
+```
+The function `combine_data` can also be used to collect individual-wise, genome-wise or edge-wise data. You just have to change the `type` argument, which determines which `read_*` function will be called. For example, to combine Fst data per locus across simulations, run:
+
+```{r}
+combine_data(
+  sims, type = "genome", variables = "genome_Fst", architecture = TRUE
+)
+```
+Please contact me for any questions you may have! You can find my details on my GitHub [page](https://github.com/rscherrer/).

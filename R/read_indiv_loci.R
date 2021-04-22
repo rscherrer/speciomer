@@ -15,6 +15,14 @@
 #'
 #' @return A data frame
 #'
+#' @details This function needs to read the file `population_size.dat`, so make
+#' sure that population sizes are saved for the time points you want to load
+#' whole genomes for. Otherwise, the function cannot assign time points to
+#' each individual. This can be done when setting `tsave` and `tfreeze` in the
+#' simulation (see the README for `speciome` on GitHub). If you do not have
+#' these data and still want to read whole genomes (but not put them in a
+#' tibble) you can use `read_bitset` instead.
+#'
 #' @examples
 #'
 #' \dontrun{
@@ -67,7 +75,7 @@ read_indiv_loci <- function(
   # into 64bit integers)
   data <- data %>% tidyr::drop_na()
 
-  # Convert to the wide format (don't thinks we will need the long-format
+  # Convert to the wide format (don't think we will need the long-format
   # in this study) = locus-wise
   data <- data %>% dplyr::mutate(hap = stringr::str_replace(hap, "^", "hap"))
   data <- data %>% tidyr::pivot_wider(names_from = "hap", values_from = "allele")
@@ -77,7 +85,7 @@ read_indiv_loci <- function(
   if (is.null(t)) t <- unique(popsizes$time)
   popsizes <- popsizes %>% dplyr::filter(time %in% t)
   times <- do.call("c", with(popsizes, purrr::map2(time, population_size, ~ rep(.x, .y))))
-  data$time <- rep(times, each = nloci)
+  data$time <- rep(times[times != 0], each = nloci)
 
   # Derive allele counts from the alleles
   data <- data %>% dplyr::mutate(allcount = hap1 + hap2)

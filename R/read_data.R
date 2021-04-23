@@ -67,7 +67,7 @@ read_data <- function(
         dupl <- read_binary(paste0(folder, "/", dupl, ".dat"))
       }
       if (length(dupl) == 1) dupl <- rep(dupl, nrow(data))
-      data <- data.frame(data[egssimtools:::mrep(seq(nrow(data)), n = dupl), ])
+      data <- data.frame(data[mrep(seq(nrow(data)), n = dupl), ])
       data <- data %>% rename_str(colnames)
 
     })

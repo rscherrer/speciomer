@@ -34,6 +34,8 @@ plot_genome_scan(
 
 \item{color}{Name of the variables to map to those aesthetics.}
 
+\item{show_chroms}{Logical. Whether or not to display the chromosomes on the plot.r}
+
 \item{chrom_pars}{List of graphical parameters for the chromosomes, to be passed to `add_chromosomes()`. Includes `y`, `offset`, `size` and `color`.}
 }
 \value{

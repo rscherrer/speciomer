@@ -40,9 +40,9 @@ read_arch_file <- function(filename) {
 
   ii <- grep("network", archfile)
   networks <- lapply(ii, function(i) list (
-    edges0 = egssimtools:::str2vec(archfile[i + 2]),
-    edges1 = egssimtools:::str2vec(archfile[i + 4]),
-    weights = egssimtools:::str2vec(archfile[i + 6])
+    edges0 = str2vec(archfile[i + 2]),
+    edges1 = str2vec(archfile[i + 4]),
+    weights = str2vec(archfile[i + 6])
   ))
   names(networks) <- c("ecotrait", "matepref", "neutral")
   arch$networks <- networks

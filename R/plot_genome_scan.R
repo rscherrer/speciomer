@@ -15,6 +15,7 @@
 #' @param show_generation Logical. Whether to show the time point as a title
 #' @param style String. The `geom`s to use. Either of "points", "bars" or "lollipop".
 #' @param color Name of the variables to map to those aesthetics.
+#' @param show_chroms Logical. Whether or not to display the chromosomes on the plot.r
 #' @param chrom_pars List of graphical parameters for the chromosomes, to be passed to `add_chromosomes()`. Includes `y`, `offset`, `size` and `color`.
 #'
 #' @return A ggplot, or an animation from the `gganimate` package

@@ -40,6 +40,15 @@ A data frame
 Makes a data frame with alleles at each locus for each individual.
 Can be very large
 }
+\details{
+This function needs to read the file `population_size.dat`, so make
+sure that population sizes are saved for the time points you want to load
+whole genomes for. Otherwise, the function cannot assign time points to
+each individual. This can be done when setting `tsave` and `tfreeze` in the
+simulation (see the README for `speciome` on GitHub). If you do not have
+these data and still want to read whole genomes (but not put them in a
+tibble) you can use `read_bitset` instead.
+}
 \examples{
 
 \dontrun{

@@ -14,4 +14,8 @@ Alternatively, you can download this repository and build the package from sourc
 
 ## Use
 
-Check out the vignette. Problem: the vignette must be built upon installation, either by running `devtools::build()` from within the package in the R console after the package has been downloaded, or by using `devtools::install_github("rscherrer/speciomer", build_vignettes = TRUE)` to install the package.
+Check out the vignette, which you can build upon installation, either by running `devtools::build()` from within the package in the R console after the package has been downloaded, or by using `devtools::install_github("rscherrer/speciomer", build_vignettes = TRUE)` when installing the package.
+
+The purpose of the package is to produce tibbles (a type of table in R) from raw simulation data. The tibbles can be of different dimensions depending on the data they record:
+
+[!overview](extra/overview.png)

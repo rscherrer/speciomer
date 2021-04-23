@@ -18,4 +18,4 @@ Check out the vignette, which you can build upon installation, either by running
 
 The purpose of the package is to produce tibbles (a type of table in R) from raw simulation data. The tibbles can be of different dimensions depending on the data they record:
 
-[!overview](extra/overview.png)
+![overview](extra/overview.png)

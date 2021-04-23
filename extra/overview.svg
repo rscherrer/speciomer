@@ -14,7 +14,10 @@
    version="1.1"
    id="svg8"
    sodipodi:docname="overview.svg"
-   inkscape:version="1.0.2 (1.0.2+r75+1)">
+   inkscape:version="1.0.2 (1.0.2+r75+1)"
+   inkscape:export-filename="/home/raphael/Documents/speciomer/extra/overview.png"
+   inkscape:export-xdpi="300"
+   inkscape:export-ydpi="300">
   <defs
      id="defs2">
     <g
@@ -317,7 +320,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.7"
-     inkscape:cx="403.34604"
+     inkscape:cx="372.63175"
      inkscape:cy="259.55561"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
@@ -344,9 +347,22 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
+    <rect
+       style="opacity:0.994;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.302874;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none"
+       id="rect10-8-9-1-8-4"
+       width="210.03123"
+       height="93.729141"
+       x="-0.30469671"
+       y="0.23834267"
+       inkscape:export-filename="/home/raphael/Documents/speciomer/extra/overview.png"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300" />
     <g
        id="g1421"
-       transform="translate(-14.05174,-1.4139641)">
+       transform="translate(-14.05174,-1.4139641)"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       inkscape:export-filename="/home/raphael/Documents/speciomer/extra/overview.png">
       <g
          id="g878-5-5-5"
          transform="matrix(0.39077348,0,0,0.39077348,12.150139,-2.7539733)"
@@ -398,7 +414,10 @@
     </g>
     <g
        id="g1441"
-       transform="translate(-20.461945,-20.552919)">
+       transform="translate(-20.461945,-20.552919)"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       inkscape:export-filename="/home/raphael/Documents/speciomer/extra/overview.png">
       <g
          id="g878"
          transform="matrix(0.39077348,0,0,0.39077348,78.670628,15.314683)"
@@ -450,7 +469,10 @@
     </g>
     <g
        id="g1431"
-       transform="translate(-11.670343,-16.257953)">
+       transform="translate(-11.670343,-16.257953)"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       inkscape:export-filename="/home/raphael/Documents/speciomer/extra/overview.png">
       <g
          id="g878-5-5"
          transform="matrix(0.39077348,0,0,0.39077348,8.729164,44.422716)"
@@ -502,7 +524,10 @@
     </g>
     <g
        id="g1458"
-       transform="translate(-29.579564,-39.439636)">
+       transform="translate(-29.579564,-39.439636)"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       inkscape:export-filename="/home/raphael/Documents/speciomer/extra/overview.png">
       <g
          id="g878-5-5-5-8"
          transform="matrix(0.39077348,0,0,0.39077348,87.194152,67.214269)"
@@ -554,7 +579,10 @@
     </g>
     <g
        id="g1468"
-       transform="translate(1.8875236,-37.706928)">
+       transform="translate(1.8875236,-37.706928)"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       inkscape:export-filename="/home/raphael/Documents/speciomer/extra/overview.png">
       <g
          id="g878-5"
          transform="matrix(0.39077348,0,0,0.39077348,24.997754,95.148825)"
@@ -606,7 +634,10 @@
     </g>
     <g
        id="g1448"
-       transform="translate(-18.47092,-0.47568533)">
+       transform="translate(-18.47092,-0.47568533)"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       inkscape:export-filename="/home/raphael/Documents/speciomer/extra/overview.png">
       <rect
          style="opacity:0.994;fill:#007b9e;fill-opacity:0.343243;stroke:none;stroke-width:0.0390773;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none"
          id="rect10-8-7"
@@ -640,7 +671,10 @@
     </g>
     <g
        id="g1475"
-       transform="translate(-17.647317,-85.90793)">
+       transform="translate(-17.647317,-85.90793)"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       inkscape:export-filename="/home/raphael/Documents/speciomer/extra/overview.png">
       <rect
          style="opacity:0.994;fill:#874fb3;fill-opacity:0.341176;stroke:none;stroke-width:0.0390773;stroke-linecap:round;stroke-linejoin:bevel;stroke-miterlimit:4;stroke-dasharray:none"
          id="rect10-8-7-6"
@@ -674,7 +708,10 @@
     </g>
     <g
        id="g1475-4"
-       transform="translate(-29.526031,9.133672)">
+       transform="translate(-29.526031,9.133672)"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       inkscape:export-filename="/home/raphael/Documents/speciomer/extra/overview.png">
       <text
          xml:space="preserve"
          style="font-size:5.10417px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';word-spacing:0px;stroke-width:0.127604"
@@ -694,13 +731,19 @@
        height="12.928343"
        x="138.92401"
        y="57.966675"
-       ry="3.5186777" />
+       ry="3.5186777"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       inkscape:export-filename="/home/raphael/Documents/speciomer/extra/overview.png" />
     <text
        xml:space="preserve"
        style="font-size:3.49867px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';word-spacing:0px;stroke-width:0.0874674"
        x="166.19058"
        y="62.288769"
-       id="text1099-3-7-7-5-3"><tspan
+       id="text1099-3-7-7-5-3"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       inkscape:export-filename="/home/raphael/Documents/speciomer/extra/overview.png"><tspan
          sodipodi:role="line"
          id="tspan1097-1-5-8-7-3"
          x="166.19058"
@@ -711,7 +754,10 @@
        style="font-size:3.49867px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';word-spacing:0px;stroke-width:0.0874674"
        x="166.18254"
        y="66.975037"
-       id="text1099-4-5-7-3-8-1-9-8"><tspan
+       id="text1099-4-5-7-3-8-1-9-8"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       inkscape:export-filename="/home/raphael/Documents/speciomer/extra/overview.png"><tspan
          sodipodi:role="line"
          id="tspan1097-18-9-5-8-3-8-6-6"
          x="166.18254"
@@ -722,7 +768,10 @@
        style="font-size:5.10417px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif, Normal';word-spacing:0px;stroke-width:0.127604"
        x="139.13777"
        y="12.984159"
-       id="text1519-0"><tspan
+       id="text1519-0"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       inkscape:export-filename="/home/raphael/Documents/speciomer/extra/overview.png"><tspan
          sodipodi:role="line"
          id="tspan1517-4"
          x="139.13777"
@@ -731,7 +780,10 @@
     <g
        inkscape:label=""
        transform="matrix(0.44289073,0,0,0.44289073,-20.452188,-14.661208)"
-       id="g1927">
+       id="g1927"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       inkscape:export-filename="/home/raphael/Documents/speciomer/extra/overview.png">
       <g
          id="g6545">
         <g
@@ -750,7 +802,10 @@
     <g
        inkscape:label=""
        transform="matrix(0.44289073,0,0,0.44289073,35.960438,-15.383068)"
-       id="g2330">
+       id="g2330"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       inkscape:export-filename="/home/raphael/Documents/speciomer/extra/overview.png">
       <g
          id="g900">
         <g
@@ -791,7 +846,10 @@
     <g
        inkscape:label=""
        transform="matrix(0.44289073,0,0,0.44289073,-25.502605,18.018846)"
-       id="g2497">
+       id="g2497"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       inkscape:export-filename="/home/raphael/Documents/speciomer/extra/overview.png">
       <g
          id="g7639">
         <g
@@ -832,7 +890,10 @@
     <g
        inkscape:label=""
        transform="matrix(0.44289073,0,0,0.44289073,29.794269,16.670415)"
-       id="g2689">
+       id="g2689"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       inkscape:export-filename="/home/raphael/Documents/speciomer/extra/overview.png">
       <g
          id="g9618">
         <g
@@ -895,7 +956,10 @@
     <g
        inkscape:label=""
        transform="matrix(0.44289073,0,0,0.44289073,108.92337,-12.582781)"
-       id="g2896">
+       id="g2896"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       inkscape:export-filename="/home/raphael/Documents/speciomer/extra/overview.png">
       <g
          id="g2063">
         <g
@@ -914,7 +978,10 @@
     <g
        inkscape:label=""
        transform="matrix(0.44289073,0,0,0.44289073,108.4956,9.0431799)"
-       id="g3096">
+       id="g3096"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       inkscape:export-filename="/home/raphael/Documents/speciomer/extra/overview.png">
       <g
          id="g4125">
         <g
@@ -933,7 +1000,10 @@
     <g
        inkscape:label=""
        transform="matrix(0.44289073,0,0,0.44289073,5.0030024,47.021507)"
-       id="g3315">
+       id="g3315"
+       inkscape:export-xdpi="300"
+       inkscape:export-ydpi="300"
+       inkscape:export-filename="/home/raphael/Documents/speciomer/extra/overview.png">
       <g
          id="g5580">
         <g

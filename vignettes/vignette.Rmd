@@ -143,7 +143,7 @@ If you want to load multiple simulations you can loop through simulation folders
 To combine data from multiple simulations into a single tibble, for example, use `combine_data`:
 
 ```{r}
-sims <- paste0("../inst/extdata/sim", 1:3)
+sims <- paste0("../inst/extdata/sim", 1:2)
 combine_data(sims, type = "sim", variables = "EI")
 ```
 The output is similar to when we read in ecological divergence through time using `read_sim`, except this time we are combining these data for three different simulations (indicated by column `sim`). We can use that, for example, to see which simulations ended with differentiated ecotypes (i.e. high values of `EI`):

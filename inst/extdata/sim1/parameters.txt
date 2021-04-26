@@ -31,9 +31,10 @@ dominancevar 1
 tburnin 0
 tend 1000
 tsave 100
-tfreeze 2
+tcomplete 1000000
 talkative 1
 datsave 1
+burninsave 0
 choosewhattosave 0
 gensave 0
 archsave 1

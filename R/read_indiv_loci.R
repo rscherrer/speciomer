@@ -85,7 +85,7 @@ read_indiv_loci <- function(
   if (is.null(t)) t <- unique(popsizes$time)
   popsizes <- popsizes %>% dplyr::filter(time %in% t)
   times <- do.call("c", with(popsizes, purrr::map2(time, population_size, ~ rep(.x, .y))))
-  data$time <- rep(times[times != 0], each = nloci)
+  data$time <- rep(times, each = nloci)
 
   # Derive allele counts from the alleles
   data <- data %>% dplyr::mutate(allcount = hap1 + hap2)

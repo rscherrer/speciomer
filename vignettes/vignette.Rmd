@@ -73,6 +73,28 @@ read_pop(sim, variables = "individual_trait", by = 3)
 
 Here the `by` argument tells the function that there are three values per individual, and so the content of `individual_trait.dat` must be split into three columns.
 
+One example plot we may want to generate from such data could be:
+
+```{r, fig.width=6}
+read_pop(sim, variables = "individual_trait", by = 3) %>%
+  pivot_longer(cols = paste0("individual_trait", 1:3)) %>%
+  mutate(
+    name = str_remove(name, "individual_trait"),
+    name = fct_recode(
+      name, !!!c(Ecological = "1", Mating = "2", Neutral = "3")
+    )
+  ) %>%
+  ggplot(aes(x = as.factor(time), y = value)) +
+  geom_bin2d() +
+  facet_grid(. ~ name) +
+  theme_classic() +
+  theme(axis.text.x = element_text(hjust = 1, angle = 60)) +
+  xlab("Time (generations)") +
+  ylab("Trait value") +
+  labs(fill = "Count") +
+  scale_fill_continuous(type = "viridis")
+```
+
 It is possible to add more individual-level variables, such as which ecotype each individual belongs to:
 
 ```{r}

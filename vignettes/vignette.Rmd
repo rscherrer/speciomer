@@ -129,6 +129,30 @@ read_genome(
 )
 ```
 
+This data can then be used to display genome scans of differentiation at various time points, for example:
+
+```{r, fig.width = 5}
+read_genome(
+  sim, "genome_Fst", architecture = TRUE, archfile = "architecture.txt"
+) %>%
+  filter(time %in% c(0, 500, 1000)) %>%
+  mutate(
+    time = str_c("t = ", time),
+    time = factor(time, levels = paste("t =", c(0, 500, 1000))), # reorder
+    trait = fct_recode(
+      trait, !!!c(Ecological = "0", Mating = "1", Neutral = "2")
+    )
+  ) %>%
+  ggplot(aes(x = locus, y = genome_Fst, xend = locus, color = trait)) +
+  geom_segment(yend = 0) +
+  theme_classic() +
+  facet_grid(time ~ .) +
+  scale_color_manual(values = trait_colors()) +
+  xlab("Locus") +
+  ylab(parse(text = "F[ST]")) +
+  labs(color = "Trait")
+```
+
 ## Read gene networks
 
 Now, in `speciome` the genetic architecture does not only consist of locus-specific parameters but also of edge-specific parameters, across the edges of the three gene networks. You can access these with:

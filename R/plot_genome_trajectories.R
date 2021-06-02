@@ -37,7 +37,7 @@ plot_genome_trajectories <- function(
   p <- p + ylab(y)
 
   # Facettize if needed
-  if (by_trait) p <- ggsim::facettize(p, cols = "trait", prepend = "Trait ")
+  if (by_trait) p <- p + facet_grid(. ~ trait)
 
   return(p)
 

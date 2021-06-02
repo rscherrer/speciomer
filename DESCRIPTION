@@ -20,7 +20,6 @@ Imports:
     gganimate,
     ggplot2,
     ggraph,
-    ggsim,
     igraph,
     purrr,
     rlang,

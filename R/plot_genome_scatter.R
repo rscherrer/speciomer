@@ -110,7 +110,7 @@ plot_genome_scatter <- function(
   }
 
   # Facettize if needed
-  if (by_trait) p <- ggsim::facettize(p, cols = "trait", prepend = "Trait ")
+  if (by_trait) p <- p + facet_grid(. ~ trait)
 
   # Animate if needed
   if (mode == "animation") p <- p + gganimate::transition_time(time)

@@ -1,4 +1,6 @@
 rdynamics 1
+capacity 1
+replenish 2375
 inflow 400
 outflow 100
 hsymmetry 1
@@ -16,7 +18,7 @@ nchrom 3
 mutation 0.0001
 recombination 3
 allfreq 0.2
-scaleA 0 0 0
+scaleA 0 0 0 
 scaleD 0 0 0 
 scaleI 1 1 1 
 scaleE 0 0 0 
@@ -29,6 +31,7 @@ dominancevar 1
 tburnin 1000
 tend 3
 tsave 2
+tcomplete 1000000
 talkative 1
 datsave 1
 burninsave 0
@@ -37,4 +40,6 @@ gensave 1
 archsave 1
 archload 0
 parsave 1
+logsave 0
+seed 1623074928145859982
 ntrials 1000

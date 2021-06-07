@@ -1,0 +1,9 @@
+time
+population_sizes
+EI
+RI
+SI
+individual_traits
+individual_ecotypes
+locus_Fst
+edge_corbreed

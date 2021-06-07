@@ -17,10 +17,10 @@ mutation 0.0001
 recombination 3
 allfreq 0.2
 scaleA 0 0 0
-scaleD 0 0 0 
-scaleI 1 1 1 
-scaleE 0 0 0 
-skews 1 1 1 
+scaleD 0 0 0
+scaleI 1 1 1
+scaleE 0 0 0
+skews 1 1 1
 effectshape 1
 effectscale 1
 interactionshape 0.119

@@ -1,4 +1,4 @@
-#' Read binary file
+#' Read a binary file
 #'
 #' @param filename Path to the file
 #' @param nbytes The number of bytes constituting one value (e.g. 8 bytes
@@ -8,15 +8,7 @@
 #'
 #' @examples
 #'
-#' \dontrun{
-#'
-#' # Location of the simulation folder
-#' root <- "data/example_1"
-#'
-#' f <- file.path(root, "time.dat")
-#' read_binary(f)
-#'
-#' }
+#' read_binary("inst/extdata/sim-example/time.dat")
 #'
 #' @export
 

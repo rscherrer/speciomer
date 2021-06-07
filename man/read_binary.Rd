@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_binary.R
 \name{read_binary}
 \alias{read_binary}
-\title{Read binary file}
+\title{Read a binary file}
 \usage{
 read_binary(filename, nbytes = 8)
 }
@@ -16,18 +16,10 @@ for a double)}
 A numeric vector
 }
 \description{
-Read binary file
+Read a binary file
 }
 \examples{
 
-\dontrun{
-
-# Location of the simulation folder
-root <- "data/example_1"
-
-f <- file.path(root, "time.dat")
-read_binary(f)
-
-}
+read_binary("inst/extdata/sim-example/time.dat")
 
 }

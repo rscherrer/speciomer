@@ -32,13 +32,13 @@ list.files("../inst/extdata")
 Let us focus on one particlar simulation:
 
 ```{r}
-sim <- "../inst/extdata/sim1"
+root <- "../inst/extdata/sim-example"
 ```
 
 Use the `read_sim` function to read the data of a simulation into one tibble. We can use it, for example, to know whether speciation happened in a simulation by reading the degrees of ecological, spatial and reproductive isolation:
 
 ```{r}
-read_sim(sim, variables = c("EI", "SI", "RI"))
+read_speciome(root, variables = c("time", "EI", "SI", "RI"))
 ```
 Now that the data is in an R-friendly tibble, we can proceed onto all kinds of analyses and plotting, for example:
 

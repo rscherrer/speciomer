@@ -4,17 +4,16 @@
 \alias{read_speciome}
 \title{Read speciome simulation data}
 \usage{
-read_speciome(root, variables, ncols)
+read_speciome(root, variables, ncols = rep(1, length(variables)))
 }
 \arguments{
 \item{root}{Path to the simulation folder}
 
-\item{variables}{Vector of names of variable to read (e.g. c("time", "trait_Fst"))}
+\item{variables}{Vector of names of variable to read (e.g. \code{c("time", "trait_Fst")})}
 
-\item{ncols}{Vector of numbers of columns by which to arrange each variable
-(one integer per variable, e.g. c(1, 3)). Use negative values to duplicate
-a variable-vector into a longer column instead of splitting that vector into
-multiple columns (e.g. c(-3, 1)).}
+\item{ncols}{Vector or list indicating how to split or duplicate each variable
+when constructing the tibble. There must be one element per variable.
+See \code{?as_tibble_speciome} for details.}
 }
 \value{
 A tibble containing the simulation data
@@ -24,20 +23,20 @@ Combine data from one simulation, saved as binary files, into a single
 tibble.
 }
 \details{
-Each variable is read as a vector and reshaped into a tibble. To
-assemble the tibbles of multiple variables together, those tibbles must have
-the same number of rows. For example, if the "trait_Fst.dat" file contains one
-value per trait per time point and there are three traits, then there are three
-times as many values in "trait_Fst.dat" than in "time.dat" and so the former
-must be split into three columns to be attached to the latter. Alternatively,
-the vector of time points could be duplicated three times (\code{ncols = c(-3, 1)}),
-thus making it a column three times as long as the "time.dat" data, but the
-same size as the non-split "trait_Fst" column.
+Each variable is read as a vector and reshaped into a tibble by being
+passed, with its corresponding \code{ncols}, to \code{as_tibble_speciome}.
+The resulting tibbles for all variables are then bound together by column.
 }
 \note{
 Do not provide the extension of the data files in \code{variables} (".dat").
 }
 \examples{
+
+root <- "inst/extdata/sim-example/"
+read_speciome(root, "time")
+read_speciome(root, c("time", "EI"))
+read_speciome(root, c("time", "trait_Fst"), ncol = c(1, 3))
+read_speciome(root, c("time", "trait_Fst"), ncol = c(-3, 1))
 
 }
 \seealso{

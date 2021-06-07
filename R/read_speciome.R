@@ -4,34 +4,35 @@
 #' tibble.
 #'
 #' @param root Path to the simulation folder
-#' @param variables Vector of names of variable to read (e.g. c("time", "trait_Fst"))
-#' @param ncols Vector of numbers of columns by which to arrange each variable
-#' (one integer per variable, e.g. c(1, 3)). Use negative values to duplicate
-#' a variable-vector into a longer column instead of splitting that vector into
-#' multiple columns (e.g. c(-3, 1)).
+#' @param variables Vector of names of variable to read (e.g. \code{c("time", "trait_Fst")})
+#' @param ncols Vector or list indicating how to split or duplicate each variable
+#' when constructing the tibble. There must be one element per variable.
+#' See \code{?as_tibble_speciome} for details.
 #'
-#' @details Each variable is read as a vector and reshaped into a tibble. To
-#' assemble the tibbles of multiple variables together, those tibbles must have
-#' the same number of rows. For example, if the "trait_Fst.dat" file contains one
-#' value per trait per time point and there are three traits, then there are three
-#' times as many values in "trait_Fst.dat" than in "time.dat" and so the former
-#' must be split into three columns to be attached to the latter. Alternatively,
-#' the vector of time points could be duplicated three times (\code{ncols = c(-3, 1)}),
-#' thus making it a column three times as long as the "time.dat" data, but the
-#' same size as the non-split "trait_Fst" column.
+#' @details Each variable is read as a vector and reshaped into a tibble by being
+#' passed, with its corresponding \code{ncols}, to \code{as_tibble_speciome}.
+#' The resulting tibbles for all variables are then bound together by column.
 #'
 #' @return A tibble containing the simulation data
 #'
 #' @note Do not provide the extension of the data files in \code{variables} (".dat").
 #'
-#' @seealso `read_sim`, `read_pop`, `read_genome`
+#' @seealso
 #'
 #' @examples
+#'
+#' root <- "inst/extdata/sim-example/"
+#' read_speciome(root, "time")
+#' read_speciome(root, c("time", "EI"))
+#' read_speciome(root, c("time", "trait_Fst"), ncol = c(1, 3))
+#' read_speciome(root, c("time", "trait_Fst"), ncol = c(-3, 1))
 #'
 #' @export
 
 # Function to read speciome data
-read_speciome <- function(root, variables, ncols) {
+read_speciome <- function(root, variables, ncols = rep(1, length(variables))) {
+
+  if (length(variables) != length(ncols)) stop("ncols and variables must have the same length")
 
   # Paths to the data files
   data_file_names <- paste0(root, "/", variables, ".dat")
@@ -41,6 +42,10 @@ read_speciome <- function(root, variables, ncols) {
 
   # Transform the data vectors into tibbles
   data <- suppressMessages(purrr::map2_dfc(data, ncols, as_tibble_speciome))
+
+  # Update the number of columns allocated to each variable
+  ncols[purrr::map_lgl(ncols, ~ length(.x) > 1)] <- 1
+  ncols <- purrr::reduce(ncols, c)
 
   # Update column names
   colnames(data) <- index_duplicate(variables, ncols)

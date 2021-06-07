@@ -9,15 +9,25 @@ as_tibble_speciome(x, ncol = 1)
 \arguments{
 \item{x}{Vector of data values}
 
-\item{ncol}{Number of columns by which to split the vector. Use a negative
-value to duplicate the vector into a longer one-column tibble instead of
-splitting it.}
+\item{ncol}{If integer, number of columns by which to split the vector.
+Use a negative value to duplicate the vector into a longer one-column tibble instead of
+splitting it. If integer vector, then each element in the \code{x} will be
+duplicated a number of times defined by its corresponding (positive) entry in
+\code{ncol}. So in this case, \code{ncol} and \code{x} must have the same length.}
 }
 \value{
 A tibble containing the simulation data
 }
 \description{
 Reshapes a speciome data vector into a matrix and converts it into a tibble.
+}
+\examples{
+
+as_tibble_speciome(1:3)
+as_tibble_speciome(1:3, ncol = 3)
+as_tibble_speciome(1:3, ncol = -2)
+as_tibble_speciome(1:3, ncol = 1:3)
+
 }
 \seealso{
 `read_speciome`

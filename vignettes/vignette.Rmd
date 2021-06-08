@@ -143,7 +143,7 @@ read_loci(root, "Fst") %>%
   geom_segment(yend = 0) +
   theme_classic() +
   facet_grid(time ~ .) +
-  scale_color_manual(values = trait_colors()) +
+  scale_color_manual(values = c("forestgreen", "goldenrod", "darkgray")) +
   xlab("Locus") +
   ylab(parse(text = "F[ST]")) +
   labs(color = "Trait")

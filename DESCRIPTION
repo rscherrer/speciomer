@@ -1,7 +1,7 @@
 Package: speciomer
 Type: Package
 Title: Import Speciome Data into R
-Version: 1.0
+Version: 2.0
 Author: Raphael Scherrer
 Maintainer: Raphael Scherrer <r.scherrer@rug.nl>
 Description: Read binary speciome simulation data into R. Converts them into tibbles. Also a few extra utilities.
@@ -12,21 +12,15 @@ RoxygenNote: 7.1.1
 Suggests: 
     knitr,
     rmarkdown,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    forcats,
+    ggplot2
 VignetteBuilder: knitr
 Imports: 
     magrittr,
     dplyr,
-    forcats,
-    gganimate,
-    ggplot2,
-    ggraph,
-    igraph,
     purrr,
-    rlang,
     stringr,
     tibble,
-    tidygraph,
-    tidyr,
-    tidyselect
+    tidyr
 Config/testthat/edition: 3

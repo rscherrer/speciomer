@@ -2,6 +2,10 @@
 
 This is an R package to deal with the output of the `speciome` simulations (see [here](https://github.com/rscherrer/speciome)).
 
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/rscherrer/speciomer/workflows/R-CMD-check/badge.svg)](https://github.com/rscherrer/speciomer/actions)
+<!-- badges: end -->
+
 ## About
 
 This package was developed in R 3.6.3.

@@ -16,7 +16,7 @@
 #'
 #' @return A tibble containing the simulation data
 #'
-#' @seealso
+#' @seealso \code{read_individuals}, \code{read_loci}, \code{read_architecture}
 #'
 #' @examples
 #'

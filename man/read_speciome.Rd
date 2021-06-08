@@ -40,5 +40,5 @@ read_speciome(root, c("time", "trait_Fst"), ncol = c(-3, 1))
 
 }
 \seealso{
-
+\code{as_tibble_speciome}
 }

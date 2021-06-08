@@ -1,7 +1,6 @@
-#' Read bitset
+#' Read a bitset
 #'
-#' Read a binary file bit-wise and return a vector of integers (0/1)
-#' (e.g. whole genomes of the whole population)
+#' Reads a binary file bit-wise and returns a vector of binary integers (0 or 1)
 #'
 #' @param filename Path to the file to read
 #'
@@ -9,15 +8,8 @@
 #'
 #' @examples
 #'
-#' \dontrun{
-#'
-#' # Location of the simulation folder
-#' root <- "data/example_1"
-#'
-#' f <- file.path(root, "time.dat")
-#' read_bitset(f)
-#'
-#' }
+#' root <- system.file("extdata", "sim-indiv-genomes", package = "speciomer")
+#' read_bitset(paste0(root, "/individual_whole_genomes.dat"))
 #'
 #' @export
 

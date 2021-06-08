@@ -1,4 +1,4 @@
-root <- "../../inst/extdata/sim-example"
+root <- system.file("extdata", "sim-example", package = "speciomer")
 
 test_that("Read one variable into a tibble", {
 

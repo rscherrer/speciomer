@@ -16,7 +16,7 @@
 #'
 #' @examples
 #'
-#' root <- "inst/extdata/sim-example"
+#' root <- system.file("extdata", "sim-example", package = "speciomer")
 #' read_population(root, c("EI", "RI", "SI"))
 #' read_population(root, c("EI", "trait_Fst"), ncols = c(1, 3))
 #'
@@ -24,6 +24,9 @@
 
 # Function to read population-wide data
 read_population <- function(root, variables, ncols = NULL) {
+
+  # Add a trait prefix to the variable names if needed
+  variables <- interpret_variable_names(variables, type = "trait")
 
   if (is.null(ncols)) ncols <- rep(1, length(variables))
 
@@ -33,6 +36,9 @@ read_population <- function(root, variables, ncols = NULL) {
 
   # Read the data
   data <- read_speciome(root, variables, ncols)
+
+  # Remove the prefix "trait" from column names
+  colnames(data) <- stringr::str_remove(colnames(data), "trait_")
 
   # Remove plurals in column names
   colnames(data) <- rm_plural_colnames(colnames(data))

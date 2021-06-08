@@ -4,12 +4,15 @@
 \alias{read_population}
 \title{Read population-wide data}
 \usage{
-read_population(root, variables)
+read_population(root, variables, ncols = NULL)
 }
 \arguments{
 \item{root}{Path to the simulation folder}
 
 \item{variables}{Vector of names of variable to read}
+
+\item{ncols}{Vector or list indicating how to split or duplicate each variable
+when constructing the tibble. See \code{read_speciome}.}
 }
 \value{
 A tibble containing the simulation data
@@ -23,7 +26,11 @@ supply it.
 }
 \examples{
 
+root <- system.file("extdata", "sim-example", package = "speciomer")
+read_population(root, c("EI", "RI", "SI"))
+read_population(root, c("EI", "trait_Fst"), ncols = c(1, 3))
+
 }
 \seealso{
-`read_speciome`
+\code{read_speciome}
 }

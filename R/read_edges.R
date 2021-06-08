@@ -4,7 +4,7 @@
 #' edge per time point.
 #'
 #' @param root Path to the simulation folder
-#' @param variables Vector of names of variable to read
+#' @param variables Vector of names of variable to read (will be interpreted using \code{interpret_variable_names})
 #' @param architecture Whether to append edge-wise genetic architecture parameters
 #' (see \code{?read_architecture}).
 #'
@@ -20,12 +20,15 @@
 #'
 #' @examples
 #'
-#' root <- "inst/extdata/sim-example"
+#' root <- system.file("extdata", "sim-example", package = "speciomer")
 #' read_edges(root, "edge_corbreed")
 #'
 #' @export
 
 read_edges <- function(root, variables, architecture = TRUE) {
+
+  # Add an edge prefix to the variable names if needed
+  variables <- interpret_variable_names(variables, type = "edge")
 
   # Count the number of edges
   parameters <- read_parameters(root)
@@ -43,18 +46,20 @@ read_edges <- function(root, variables, architecture = TRUE) {
   # Remove the prefix "edge", now redundant
   colnames(data) <- stringr::str_remove(colnames(data), "edge_")
 
+  # Add an edge identifier
+  data <- data %>%
+    tibble::add_column(edge = 1, .after = "time") %>%
+    dplyr::group_by(time) %>%
+    dplyr::mutate(edge = seq(dplyr::n())) %>%
+    dplyr::ungroup()
+
   if (!architecture) return(data)
 
   # Read the genetic architecture
   arch <- read_architecture(root)[["edges"]]
 
   # Append it to each time point
-  data <- data %>%
-    dplyr::group_by(time) %>%
-    tidyr::nest() %>%
-    dplyr::mutate(arch = purrr::map(time, ~ arch)) %>%
-    tidyr::unnest(cols = c(data, arch)) %>%
-    dplyr::ungroup()
+  data <- data %>% dplyr::left_join(arch)
 
   return(data)
 

@@ -4,12 +4,15 @@
 \alias{read_individuals}
 \title{Read individual-wise data}
 \usage{
-read_individuals(root, variables)
+read_individuals(root, variables, ncols = NULL)
 }
 \arguments{
 \item{root}{Path to the simulation folder}
 
 \item{variables}{Vector of names of variable to read}
+
+\item{ncols}{Vector or list indicating how to split or duplicate each variable
+when constructing the tibble. See \code{read_speciome}.}
 }
 \value{
 A tibble containing the simulation data
@@ -29,7 +32,11 @@ supply it.
 }
 \examples{
 
+root <- system.file("extdata", "sim-example", package = "speciomer")
+read_individuals(root, "individual_ecotypes")
+read_individuals(root, c("individual_traits", "individual_ecotypes"), ncols = c(3, 1))
+
 }
 \seealso{
-`read_speciome`
+\code{read_speciome}
 }

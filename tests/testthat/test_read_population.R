@@ -1,4 +1,4 @@
-root <- "../../inst/extdata/sim-example"
+root <- system.file("extdata", "sim-example", package = "speciomer")
 
 test_that("Read population-wide data", {
 
@@ -10,7 +10,7 @@ test_that("Read population-wide data", {
 
 test_that("Read split population-wide data", {
 
-  data <- read_population(root, c("EI", "trait_Fst"), ncols = c(1, 3))
+  data <- read_population(root, c("EI", "Fst"), ncols = c(1, 3))
   expect_equal(ncol(data), 5)
 
 })

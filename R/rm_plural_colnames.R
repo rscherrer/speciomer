@@ -8,7 +8,9 @@
 #'
 #' @examples
 #'
-#' rm_plural_colnames("traits1", "traits2", "traits3", "ecotypes")
+#' rm_plural_colnames(c("traits1", "traits2", "traits3", "ecotypes"))
+#'
+#' @export
 
 rm_plural_colnames <- function(x) {
 

@@ -21,13 +21,16 @@
 #'
 #' @examples
 #'
-#' root <- "inst/extdata/sim-example"
+#' root <- system.file("extdata", "sim-example", package = "speciomer")
 #' read_individuals(root, "individual_ecotypes")
 #' read_individuals(root, c("individual_traits", "individual_ecotypes"), ncols = c(3, 1))
 #'
 #' @export
 
 read_individuals <- function(root, variables, ncols = NULL) {
+
+  # Add an individual prefix to the variable names if needed
+  variables <- interpret_variable_names(variables, type = "individual")
 
   if (is.null(ncols)) ncols <- rep(1, length(variables))
 
@@ -44,6 +47,9 @@ read_individuals <- function(root, variables, ncols = NULL) {
 
   # Remove the prefix "individual" from the column names
   colnames(data) <- stringr::str_remove(colnames(data), "individual_")
+
+  # Add an individual identifier
+  data <- data %>% tibble::add_column(individual = seq(nrow(data)), .after = "time")
 
   # Remove plurals in column names
   colnames(data) <- rm_plural_colnames(colnames(data))

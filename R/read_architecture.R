@@ -11,7 +11,7 @@
 #'
 #' @examples
 #'
-#' root <- "inst/extdata/sim-example"
+#' root <- system.file("extdata", "sim-example", package = "speciomer")
 #' read_architecture(root)
 #'
 #' @export
@@ -58,8 +58,9 @@ read_architecture <- function(root) {
 
   # Store locus-wise fields in a tibble
   nodes <- with(arch, tibble::tibble(
+    locus = seq(length(traits)),
     chromosome = purrr::map_int(locations, ~ which(.x < chromosomes)[1]),
-    trait = traits + 1,
+    trait = as.integer(traits + 1),
     location = locations,
     effect = effects,
     dominance = dominances
@@ -78,14 +79,34 @@ read_architecture <- function(root) {
     curr_network <- purrr::map_dfc(arch[is_curr_network], ~ .x)
 
     # Rename the columns
-    colnames(curr_network) <- c("from", "to", "weights")
+    colnames(curr_network) <- c("from", "to", "weight")
+
+    # Correct indexing of loci
+    curr_network <- curr_network %>% dplyr::mutate(from = from + 1, to = to + 1)
 
     # Add a column for the trait
-    curr_network <- curr_network %>% dplyr::mutate(trait = curr_trait + 1)
+    curr_network <- curr_network %>%
+      dplyr::mutate(trait = as.integer(curr_trait + 1))
 
     return(curr_network)
 
   })
+
+  # Add edge identifier
+  edges <- edges %>%
+    tibble::add_column(edge = seq(nrow(edges)), .before = "from")
+
+  # Additional locus-wise data from the network
+  nodes_extra <- edges %>%
+    tidyr::pivot_longer(cols = c(from, to), values_to = "locus") %>%
+    dplyr::group_by(locus) %>%
+    dplyr::summarize(
+      degree = dplyr::n(),
+      max_abs_weight = max(abs(weight))
+    )
+
+  # Add them
+  nodes <- nodes %>% dplyr::right_join(nodes_extra)
 
   # Make a list of the two tibbles
   arch <- list(nodes = nodes, edges = edges)

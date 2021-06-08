@@ -18,7 +18,11 @@ Use this package to import simulation data saved by the `speciome` program into 
 
 ```{r setup}
 library(speciomer)
-library(tidyverse)
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(forcats)
+library(stringr)
 ```
 
 The `inst/extdata` folder contains example simulation data.
@@ -35,15 +39,15 @@ Let us focus on one particlar simulation:
 root <- "../inst/extdata/sim-example"
 ```
 
-Use the `read_sim` function to read the data of a simulation into one tibble. We can use it, for example, to know whether speciation happened in a simulation by reading the degrees of ecological, spatial and reproductive isolation:
+Use the `read_population` function to read the data of a simulation into one tibble. We can use it, for example, to know whether speciation happened in a simulation by reading the degrees of ecological, spatial and reproductive isolation:
 
 ```{r}
-read_speciome(root, variables = c("time", "EI", "SI", "RI"))
+read_population(root, variables = c("EI", "SI", "RI"))
 ```
 Now that the data is in an R-friendly tibble, we can proceed onto all kinds of analyses and plotting, for example:
 
 ```{r, fig.width=5}
-read_sim(sim, variables = c("EI", "RI", "SI")) %>%
+read_population(root, variables = c("EI", "RI", "SI")) %>%
   pivot_longer(cols = c("EI", "RI", "SI")) %>%
   mutate(
     name = fct_recode(
@@ -68,23 +72,25 @@ read_sim(sim, variables = c("EI", "RI", "SI")) %>%
 Now, this all works fine if we want to read variables that have one value per time point. But what if we want to visualize, for example, the phenotypes of each individual in the population? Then we have one value per trait, per individual and per time point. For these individual-level data we use:
 
 ```{r}
-read_pop(sim, variables = "individual_trait", by = 3)
+read_individuals(root, variables = "traits", ncols = 3)
 ```
 
-Here the `by` argument tells the function that there are three values per individual, and so the content of `individual_trait.dat` must be split into three columns.
+Here the `ncols` argument tells the function that there are three values per individual, and so the content of `individual_traits.dat` must be split into three columns.
+
+Note that we specified "traits" as a variable name. Internally, the function interprets that as "individual_traits", and so reads the file `individual_traits.dat`. We could have equally specified `variables = "individual_traits"` but this takes more space.
 
 One example plot we may want to generate from such data could be:
 
 ```{r, fig.width=6}
-read_pop(sim, variables = "individual_trait", by = 3) %>%
-  pivot_longer(cols = paste0("individual_trait", 1:3)) %>%
+read_individuals(root, variables = "traits", ncols = 3) %>%
+  pivot_longer(cols = paste0("trait", 1:3)) %>%
   mutate(
-    name = str_remove(name, "individual_trait"),
+    name = str_remove(name, "trait"),
     name = fct_recode(
       name, !!!c(Ecological = "1", Mating = "2", Neutral = "3")
     )
   ) %>%
-  ggplot(aes(x = as.factor(time), y = value)) +
+  ggplot(aes(x = time, y = value)) +
   geom_bin2d() +
   facet_grid(. ~ name) +
   theme_classic() +
@@ -98,52 +104,42 @@ read_pop(sim, variables = "individual_trait", by = 3) %>%
 It is possible to add more individual-level variables, such as which ecotype each individual belongs to:
 
 ```{r}
-read_pop(
-  sim, variables = c("individual_ecotype", "individual_trait"), by = c(1, 3)
+read_individuals(
+  root, variables = c("ecotypes", "traits"), ncols = c(1, 3)
 )
 ```
 
-Then, we have to provide one value of `by` for each data file we want to read. There is one ecotype per individual in `individual_ecotype.dat` and three trait values per individual in `individual_trait.dat`, so `by = c(1, 3)`.
+Then, we have to provide one value of `ncols` for each data file we want to read. There is one ecotype per individual in `individual_ecotype.dat` and three trait values per individual in `individual_trait.dat`, so `ncols = c(1, 3)`.
 
 ## Read genome-wide data
 
-`speciome` simulates evolution with explicit genomes, so what if we want to see, for example, Fst data for across all loci and through time? We use `read_genome` for that:
+`speciome` simulates evolution with explicit genomes, so what if we want to see, for example, Fst data for across all loci and through time? We use `read_loci` for that:
 
 ```{r}
-read_genome(sim, variables = "genome_Fst")
+read_loci(root, variables = "Fst")
 ```
 
-Now that is great, but we may not remember which gene codes for what and with what intensity. Unlike Fst, which can change through time in a simulation, these details are not variables but fixed parameters of the genetic architecture. We can find them in the architecture file, provided we saved it with the simulation:
+This will read the file `locus_Fst.dat`. Notice that the components of the genetic architecture are loaded and appended to the data, to help us remember e.f. which gene codes for what and with what intensity (these details are not variables but fixed parameters of the genetic architecture). We can load them separately in the architecture file, provided we saved it with the simulation:
 
 ```{r}
-read_arch_genome(sim, "architecture.txt")
+read_architecture(root)[["nodes"]]
 ```
 
-This tibble contains all kinds of information about the genetic architecture on a per-locus basis.
+This tibble contains all kinds of information about the genetic architecture on a per-locus basis. The output of `read_architecture` is actually a list of two tibbles, one called "nodes" containing locus-wise information and the other called "edges" containing edge-wise information from the gene networks (see below).
 
-Of course we can load both the genetic variables through time and the genetic architecture together in one go, using:
-
-```{r}
-read_genome(
-  sim, "genome_Fst", architecture = TRUE, archfile = "architecture.txt"
-)
-```
-
-This data can then be used to display genome scans of differentiation at various time points, for example:
+These data can then be used to display genome scans of differentiation at various time points, for example:
 
 ```{r, fig.width = 5}
-read_genome(
-  sim, "genome_Fst", architecture = TRUE, archfile = "architecture.txt"
-) %>%
+read_loci(root, "Fst") %>%
   filter(time %in% c(0, 500, 1000)) %>%
   mutate(
     time = str_c("t = ", time),
     time = factor(time, levels = paste("t =", c(0, 500, 1000))), # reorder
     trait = fct_recode(
-      trait, !!!c(Ecological = "0", Mating = "1", Neutral = "2")
+      as.character(trait), !!!c(Ecological = "1", Mating = "2", Neutral = "3")
     )
   ) %>%
-  ggplot(aes(x = locus, y = genome_Fst, xend = locus, color = trait)) +
+  ggplot(aes(x = locus, y = Fst, xend = locus, color = trait)) +
   geom_segment(yend = 0) +
   theme_classic() +
   facet_grid(time ~ .) +
@@ -158,60 +154,30 @@ read_genome(
 Now, in `speciome` the genetic architecture does not only consist of locus-specific parameters but also of edge-specific parameters, across the edges of the three gene networks. You can access these with:
 
 ```{r}
-read_arch_network(sim, "architecture.txt", as_list = TRUE)$edges
+read_architecture(root)[["edges"]]
 ```
 
-Here are recorded the details for each edge, identified by the indexes of the two partner loci (`from` and `to`). The argument `as_list` forces the output to be a list of two tibbles: (1) `nodes`, which contains all locus-specific parameters (basically the output of `read_arch_genome`) and (2) `edges`, which we have returned here. So, `read_arch_network` can be used to retrieve locus-specific *and* edge-specific parameters. Note that if `as_list` is `FALSE` the output is a `tbl_graph` object (from the `tidygraph` package), which can be useful for plotting networks using `ggraph` for example.
+Here are recorded the details for each edge, identified by the indexes of the two partner loci (`from` and `to`).
 
 It is also possible to read edge-wise data from a simulation. For example, to read, for each edge through time, the correlation in breeding value between the partner loci, use:
 
 ```{r}
-read_network(sim, variables = "network_corbreed", architecture = TRUE)
+read_edges(root, variables = "corbreed")
 ```
 
-Under the hood the functions `read_genome`, `read_network`, `read_pop` and `read_sim` all call another function, `read_data`, to read the binary `.dat` files containing the simulation output. It is just that these wrappers around `read_data` organize the output tibble in a specific way to provide observations on a per-locus-per-time-point, per-edge-per-time-point, per-individual-per-time-point or only a per-time-point basis, respectively.
+Under the hood the functions `read_loci`, `read_edges`, `read_individuals` and `read_population` all call another function, `read_speciome`, to read the binary `.dat` files containing the simulation output. It is just that these wrappers around `read_speciome` organize the output tibble in a specific way to provide observations on a per-locus-per-time-point, per-edge-per-time-point, per-individual-per-time-point or only a per-time-point basis, respectively.
 
 ## Read whole individual genomes
 
 You may also want to read data recorded for each locus in each individual through time, e.g. whole individual genomes. Beware that these data can take up a huge amount of space (if there are many loci, many individuals and many time points).
 
 ```{r}
-sim_ind_genomes <- "../inst/extdata/sim-indiv-genomes/"
-read_indiv_loci(sim_ind_genomes, nloci = 90)
+root2 <- "../inst/extdata/sim-indiv-genomes/"
+read_individual_genomes(root2, locus_architecture = TRUE)
 ```
 
-The resulting tibble contains, for each locus in each individual, the allele at each haplotype, the time point when this data was recorded, the allele count (number of 1-alleles) and the genetic value of that locus in that individual. By default locus-specific parameters of the genetic architecture will be appended (you can turn this off by setting `architecture = FALSE`). The `extra` argument allows to append more individual-level variables, such as the ecotype of each individual (`extra = "individual_ecotype"`).
+The resulting tibble contains, for each locus in each individual, the allele at each haplotype, the time point when this data was recorded, the allele count (number of 1-alleles) and the genetic value of that locus in that individual. Here locus-specific parameters of the genetic architecture are appended (you can turn this off by setting `locus_architecture = FALSE`). Additional arguments allow to append more locus-wise variables, or individual-wise variables such as the ecotype of each individual (`individual_variables = "ecotypes"`).
 
-## Multiple simulations
+## Contact
 
-If you want to load multiple simulations you can loop through simulation folders with regular for-loops or `purrr::map`-like functions, but we also provide a few utilities for that.
-
-To combine data from multiple simulations into a single tibble, for example, use `combine_data`:
-
-```{r}
-sims <- paste0("../inst/extdata/sim", 1:2)
-combine_data(sims, type = "sim", variables = "EI")
-```
-The output is similar to when we read in ecological divergence through time using `read_sim`, except this time we are combining these data for three different simulations (indicated by column `sim`). We can use that, for example, to see which simulations ended with differentiated ecotypes (i.e. high values of `EI`):
-
-```{r}
-combine_data(sims, type = "sim", variables = "EI") %>%
-  group_by(sim) %>%
-  summarize(EI = last(EI))
-```
-The different simulations we read may have different parameter values, and we may want to append this to the tibble. For example, to add the number of loci in each simulation we run:
-
-```{r}
-combine_data(
-  sims, type = "sim", variables = "EI", parnames = "nvertices", 
-  parfile = "parameters.txt"
-)
-```
-The function `combine_data` can also be used to collect individual-wise, genome-wise or edge-wise data. You just have to change the `type` argument, which determines which `read_*` function will be called. For example, to combine Fst data per locus across simulations, run:
-
-```{r}
-combine_data(
-  sims, type = "genome", variables = "genome_Fst", architecture = TRUE
-)
-```
 Please contact me for any questions you may have! You can find my details on my GitHub [page](https://github.com/rscherrer/).

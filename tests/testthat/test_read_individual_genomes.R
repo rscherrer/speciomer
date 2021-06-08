@@ -1,4 +1,4 @@
-root <- "../../inst/extdata/sim-indiv-genomes"
+root <- system.file("extdata", "sim-indiv-genomes", package = "speciomer")
 
 test_that("Read individual genomes", {
 
@@ -12,23 +12,21 @@ test_that("Read individual genomes", {
 
 test_that("Read individual genomes with individual metadata", {
 
-  variables <- c("individual_traits", "individual_ecotypes")
-  ncols <- c(3, 1)
-  data <- read_individual_genomes(root, variables, ncols)
-  expect_true("trait1" %in% colnames(data))
+  data <- suppressMessages(read_individual_genomes(root, "individual_ecotypes"))
+  expect_true("ecotype" %in% colnames(data))
 
 })
 
 test_that("Read individual genomes with locus metadata", {
 
-  data <- read_individual_genomes(root, locus_variables = "locus_Fst")
+  data <- suppressMessages(read_individual_genomes(root, locus_variables = "locus_Fst"))
   expect_true("Fst" %in% colnames(data))
 
 })
 
 test_that("Read individual genomes with genetic architecture only", {
 
-  data <- read_individual_genomes(root, locus_architecture = TRUE)
+  data <- suppressMessages(read_individual_genomes(root, locus_architecture = TRUE))
   expect_true("effect" %in% colnames(data))
 
 })

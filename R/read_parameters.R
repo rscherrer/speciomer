@@ -10,7 +10,7 @@
 #'
 #' @examples
 #'
-#' root <- "inst/extdata/sim-example"
+#' root <- system.file("extdata", "sim-example", package = "speciomer")
 #' read_parameters(root)
 #'
 #' @export

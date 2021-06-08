@@ -32,7 +32,7 @@ Do not provide the extension of the data files in \code{variables} (".dat").
 }
 \examples{
 
-root <- "inst/extdata/sim-example/"
+root <- system.file("extdata", "sim-example", package = "speciomer")
 read_speciome(root, "time")
 read_speciome(root, c("time", "EI"))
 read_speciome(root, c("time", "trait_Fst"), ncol = c(1, 3))
@@ -40,5 +40,5 @@ read_speciome(root, c("time", "trait_Fst"), ncol = c(-3, 1))
 
 }
 \seealso{
-`read_sim`, `read_pop`, `read_genome`
+
 }

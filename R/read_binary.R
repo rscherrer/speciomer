@@ -8,7 +8,8 @@
 #'
 #' @examples
 #'
-#' read_binary("inst/extdata/sim-example/time.dat")
+#' root <- system.file("extdata", "sim-example", package = "speciomer")
+#' read_binary(paste0(root, "/time.dat"))
 #'
 #' @export
 

@@ -29,8 +29,8 @@ interactionshape 0.119
 interactionscale 1
 dominancevar 1
 tburnin 1000
-tend 5000
-tsave 100
+tend 2000
+tsave 500
 tcomplete 1000000
 talkative 1
 datsave 1
@@ -41,5 +41,5 @@ archsave 1
 archload 0
 parsave 1
 logsave 0
-seed 1623102566138155813
+seed 1623158984083145484
 ntrials 1000

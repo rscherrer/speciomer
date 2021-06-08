@@ -20,12 +20,9 @@
 #'
 #' @examples
 #'
-#' root <- "inst/extdata/sim-example/"
+#' root <- system.file("extdata", "sim-indiv-genomes", package = "speciomer")
 #' read_individual_genomes(root)
-#' read_individual_genomes(
-#'   root, individual_variables = c("individual_traits", "individual_ecotypes"),
-#'   individual_ncols = c(3, 1)
-#' )
+#' read_individual_genomes(root, "individual_ecotypes")
 #' read_individual_genomes(root, locus_variables = "locus_Fst")
 #'
 #' @export
@@ -33,7 +30,7 @@
 read_individual_genomes <- function(
 
   root, individual_variables = NULL, individual_ncols = NULL,
-  locus_variables = NULL, locus_architecture = TRUE
+  locus_variables = NULL, locus_architecture = FALSE
 
 ) {
 
@@ -99,11 +96,7 @@ read_individual_genomes <- function(
     individual_data <- read_individuals(root, individual_variables, individual_ncols)
 
     # Add them
-    data <- data %>%
-      dplyr::group_by(individual, time) %>%
-      tidyr::nest() %>%
-      dplyr::bind_cols(individual_data %>% dplyr::select(-time)) %>%
-      tidyr::unnest(cols = data)
+    data <- data %>% dplyr::right_join(individual_data)
 
   }
 
@@ -113,11 +106,7 @@ read_individual_genomes <- function(
     locus_data <- read_loci(root, locus_variables, locus_architecture)
 
     # Add them
-    data <- data %>%
-      dplyr::group_by(locus, time) %>%
-      tidyr::nest() %>%
-      dplyr::bind_cols(locus_data %>% dplyr::select(-time)) %>%
-      tidyr::unnest(cols = data)
+    data <- data %>% dplyr::right_join(locus_data)
 
   }
 
@@ -127,11 +116,7 @@ read_individual_genomes <- function(
     arch <- read_architecture(root)[["nodes"]]
 
     # Append it
-    data <- data %>%
-      dplyr::group_by(locus) %>%
-      tidyr::nest() %>%
-      dplyr::bind_cols(arch) %>%
-      tidyr::unnest(data)
+    data <- data %>% dplyr::right_join(arch)
 
   }
 

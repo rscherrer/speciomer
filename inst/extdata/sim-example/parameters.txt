@@ -27,8 +27,8 @@ interactionshape 0.119
 interactionscale 1
 dominancevar 1
 tburnin 1000
-tend 5000
-tsave 100
+tend 2000
+tsave 500
 talkative 1
 datsave 1
 burninsave 1

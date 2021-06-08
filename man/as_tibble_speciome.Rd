@@ -30,5 +30,5 @@ as_tibble_speciome(1:3, ncol = 1:3)
 
 }
 \seealso{
-`read_speciome`
+\code{read_speciome}
 }

@@ -41,5 +41,5 @@ archsave 1
 archload 0
 parsave 1
 logsave 0
-seed 1623074928145859982
+seed 1623136002909368587
 ntrials 1000

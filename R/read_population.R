@@ -35,7 +35,7 @@ read_population <- function(root, variables, ncols = NULL) {
   data <- read_speciome(root, variables, ncols)
 
   # Remove plurals in column names
-  colnames(data) <- stringr::str_remove(colnames(data), "s$")
+  colnames(data) <- rm_plural_colnames(colnames(data))
 
   return(data)
 

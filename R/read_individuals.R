@@ -46,7 +46,7 @@ read_individuals <- function(root, variables, ncols = NULL) {
   colnames(data) <- stringr::str_remove(colnames(data), "individual_")
 
   # Remove plurals in column names
-  colnames(data) <- stringr::str_remove(colnames(data), "s$")
+  colnames(data) <- rm_plural_colnames(colnames(data))
 
   return(data)
 

@@ -53,7 +53,8 @@ read_loci <- function(root, variables, architecture = TRUE) {
     dplyr::group_by(time) %>%
     tidyr::nest() %>%
     dplyr::mutate(arch = purrr::map(time, ~ arch)) %>%
-    tidyr::unnest(cols = c(data, arch))
+    tidyr::unnest(cols = c(data, arch)) %>%
+    dplyr::ungroup()
 
   return(data)
 

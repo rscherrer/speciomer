@@ -43,5 +43,5 @@ read_individual_genomes(root, locus_variables = "locus_Fst")
 
 }
 \seealso{
-
+\code{read_individuals}, \code{read_loci}, \code{read_architecture}
 }

@@ -17,7 +17,7 @@
 #'
 #' @note Do not provide the extension of the data files in \code{variables} (".dat").
 #'
-#' @seealso
+#' @seealso \code{as_tibble_speciome}
 #'
 #' @examples
 #'

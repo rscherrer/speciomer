@@ -65,7 +65,7 @@ read_individual_genomes <- function(
 
   # Convert to the locus-wise wide format
   data <- data %>%
-    dplyr::mutate(haplotype = stringr::str_replace(haplotype, "^", "haplotype_")) %>%
+    dplyr::mutate(haplotype = stringr::str_replace(haplotype, "^", "haplotype")) %>%
     tidyr::pivot_wider(names_from = "haplotype", values_from = "allele")
 
   # Read population sizes
@@ -84,7 +84,7 @@ read_individual_genomes <- function(
   data <- data %>% tibble::add_column(time = times, .before = "individual")
 
   # Derive allele counts (genotype) from the alleles
-  data <- data %>% dplyr::mutate(genotype = haplotype_1 + haplotype_2)
+  data <- data %>% dplyr::mutate(genotype = haplotype1 + haplotype2)
 
   # Add genetic values
   genetic_values <- read_binary(paste0(root, "/individual_locus_genvalues.dat"))

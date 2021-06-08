@@ -3,7 +3,7 @@ root <- system.file("extdata", "sim-indiv-genomes", package = "speciomer")
 test_that("Read individual genomes", {
 
   data <- read_individual_genomes(root)
-  expect_true("haplotype_1" %in% colnames(data))
+  expect_true("haplotype1" %in% colnames(data))
   population_sizes <- read_binary(paste0(root, "/population_sizes.dat"))
   nloci <- sum(read_parameters(root)[["nvertices"]])
   expect_equal(nrow(data), sum(population_sizes) *  nloci)

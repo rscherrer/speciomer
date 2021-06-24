@@ -127,17 +127,21 @@ plot_outcome_core <- function(
   trait_plot <- trait_plot + ggplot2::theme(legend.position = "none")
 
   # Combine the plots
-  row1 <- (trait_plot + trait_plot_legend) + patchwork::plot_layout(widths = c(4, 1))
-  row6 <- (alpha_plot | alpha_hist) + patchwork::plot_layout(widths = c(4, 1))
+
+  row1 <- patchwork::wrap_plots(trait_plot, trait_plot_legend, ncol = 2, widths = c(4, 1))
+  row6 <- patchwork::wrap_plots(alpha_plot, alpha_hist, ncol = 2, widths = c(4, 1))
 
   if (full) {
-    row2 <- (fst_plot | fst_hist) + patchwork::plot_layout(widths = c(4, 1))
-    row3 <- (qst_plot | qst_hist) + patchwork::plot_layout(widths = c(4, 1))
-    row4 <- (cst_plot | cst_hist) + patchwork::plot_layout(widths = c(4, 1))
-    row5 <- (freq_plot | freq_hist) + patchwork::plot_layout(widths = c(4, 1))
-    return(row1 / row2 / row3 / row4 / row5 / row6)
+
+    row2 <- patchwork::wrap_plots(fst_plot, fst_hist, ncol = 2, widths = c(4, 1))
+    row3 <- patchwork::wrap_plots(qst_plot, qst_hist, ncol = 2, widths = c(4, 1))
+    row4 <- patchwork::wrap_plots(cst_plot, cst_hist, ncol = 2, widths = c(4, 1))
+    row5 <- patchwork::wrap_plots(freq_plot, freq_hist, ncol = 2, widths = c(4, 1))
+
+    return(patchwork::wrap_plots(row1, row2, row3, row4, row4, row6, ncol = 1))
+
   }
 
-  return(row1 / row6)
+  return(patchwork::wrap_plots(row1, row6, ncol = 1))
 
 }

@@ -64,18 +64,10 @@ plot_full_scan <- function(data, grn, time, trait) {
   network_plot <- plot_network(tidygraph::as_tbl_graph(grn), trait = curr_trait)
 
   # Combine all layers of the plot
-  network_plot /
-    degree_plot /
-    effect_size_plot /
-    barcode /
-    genome_fst_scan /
-    genome_qst_scan /
-    genome_cst_scan /
-    genome_freq_scan /
-    genome_alpha_scan +
-    patchwork::plot_layout(
-      heights = c(5, 2, 2, 1, 2, 2, 2, 2, 2),
-      guides = "collect"
-    )
+  patchwork::wrap_plots(
+    network_plot, degree_plot, effect_size_plot, barcode, genome_fst_scan,
+    genome_qst_scan, genome_cst_scan, genome_freq_scan, genome_alpha_scan,
+    heights = c(5, 2, 2, 1, 2, 2, 2, 2, 2), guides = "collect"
+  )
 
 }

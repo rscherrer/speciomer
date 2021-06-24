@@ -43,5 +43,7 @@ plot_outcome(root)
 
 }
 \seealso{
-\code{plot_outcome_core}
+\code{plot_outcome_core}, \code{plot_outcome_full},
+\code{plot_outcome_simple}, \code{plot_outcome_burnin},
+\code{plot_outcome_init}
 }

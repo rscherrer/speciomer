@@ -89,10 +89,10 @@ plot_outcome_core <- function(
   # Plot loci through time
   if (full) {
 
-    fst_plot <- genome_data_sub %>% plot_loci_tt("Fst", burnin_bar = burnin_bar) + ggplot2::ylab(parse(text = "F[ST]"))
-    qst_plot <- genome_data_sub %>% plot_loci_tt("Qst", burnin_bar = burnin_bar) + ggplot2::ylab(parse(text = "Q[ST]"))
-    cst_plot <- genome_data_sub %>% plot_loci_tt("Cst", burnin_bar = burnin_bar) + ggplot2::ylab(parse(text = "C[ST]"))
-    freq_plot <- genome_data_sub %>% plot_loci_tt("freq", burnin_bar = burnin_bar) + ggplot2::ylab(parse(text = "p"))
+    fst_plot <- genome_data_sub %>% plot_loci_tt("Fst", burnin_bar = burnin_bar) + ggplot2::ylab(parse(text = "F[ST]")) + rm_strips()
+    qst_plot <- genome_data_sub %>% plot_loci_tt("Qst", burnin_bar = burnin_bar) + ggplot2::ylab(parse(text = "Q[ST]")) + rm_strips()
+    cst_plot <- genome_data_sub %>% plot_loci_tt("Cst", burnin_bar = burnin_bar) + ggplot2::ylab(parse(text = "C[ST]")) + rm_strips()
+    freq_plot <- genome_data_sub %>% plot_loci_tt("freq", burnin_bar = burnin_bar) + ggplot2::ylab(parse(text = "p")) + rm_strips()
 
     # Read genome-wise "ST" statistics if needed
     genome_wide_xst_data <- read_traits(root, c("Fst", "Qst", "Cst")) %>%
@@ -118,7 +118,7 @@ plot_outcome_core <- function(
   }
 
   # Same but for alpha
-  alpha_plot <- genome_data_sub %>% plot_loci_tt("alpha", burnin_bar = burnin_bar) + ggplot2::ylab(parse(text = "alpha"))
+  alpha_plot <- genome_data_sub %>% plot_loci_tt("alpha", burnin_bar = burnin_bar) + ggplot2::ylab(parse(text = "alpha")) + rm_strips()
   alpha_hist <- genome_data_sub %>% plot_density("alpha", time = dplyr::last(.$time)) + ggplot2::ylab(parse(text = "alpha"))
   alpha_hist <- alpha_hist + rm_axis("y") + rm_strips() + ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(n = 3))
 
@@ -126,8 +126,7 @@ plot_outcome_core <- function(
   trait_plot_legend <- cowplot::get_legend(trait_plot)
   trait_plot <- trait_plot + ggplot2::theme(legend.position = "none")
 
-  # Combine the plots
-
+  # Combine the plotss
   row1 <- patchwork::wrap_plots(trait_plot, trait_plot_legend, ncol = 2, widths = c(4, 1))
   row6 <- patchwork::wrap_plots(alpha_plot, alpha_hist, ncol = 2, widths = c(4, 1))
 

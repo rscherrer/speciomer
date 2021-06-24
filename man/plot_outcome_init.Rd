@@ -26,6 +26,11 @@ have taken a lot of space).
 \details{
 Wrapper around \code{plot_outcome_core}
 }
+\note{
+See \code{?plot_eco_trait_zoomed} for the logic behind having a
+separate high-resolution simulation for the early steps of the burn-in
+period.
+}
 \examples{
 
 \dontrun{
@@ -37,5 +42,5 @@ plot_outcome_init(root)
 
 }
 \seealso{
-\code{plot_outcome_core}
+\code{plot_outcome_core}, \code{plot_eco_trait_zoomed}
 }

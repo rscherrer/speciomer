@@ -15,7 +15,11 @@
 #'
 #' @return A patchwork
 #'
-#' @seealso \code{plot_outcome_core}
+#' @note See \code{?plot_eco_trait_zoomed} for the logic behind having a
+#' separate high-resolution simulation for the early steps of the burn-in
+#' period.
+#'
+#' @seealso \code{plot_outcome_core}, \code{plot_eco_trait_zoomed}
 #'
 #' @examples
 #'

@@ -26,7 +26,7 @@
 #' \dontrun{
 #'
 #' root <- system.file("extdata", "sim-example", package = "speciomer")
-#' plot_outcome_root(root)
+#' plot_outcome(root)
 #'
 #' }
 #'

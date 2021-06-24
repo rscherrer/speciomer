@@ -1,17 +1,39 @@
+#' Plot locus effect sizes
+#'
+#' Barplot of the effect sizes of loci across the genome.
+#'
+#' @param arch A data frame containing locus-wise genetic architecture
+#' data (see \code{?read_architecture})
+#' @param xaxis What to show on the x-axis. Either of "location" for genomic
+#' location (continuous between 0 and 1) or "locus" for locus index.
+#' @param rm_x Whether to remove the x-axis entirely
+#'
+#' @return A ggplot
+#'
+#' @seealso \code{read_architecture}
+#'
+#' @examples
+#'
+#' root <- system.file("extdata", "sim-example", package = "speciomer")
+#' arch <- read_architecture(root)$nodes
+#' plot_effect_sizes(arch)
+#'
+#' @export
+
 # Function to plot gene additive effect sizes
 plot_effect_sizes <- function(arch, xaxis = "location", rm_x = TRUE) {
 
-  if (xaxis == "location") arch <- arch %>% mutate(locus = location)
+  if (xaxis == "location") arch <- arch %>% dplyr::mutate(locus = location)
 
   # Plot effect sizes
   plot <- arch %>%
-    ggplot() +
-    geom_segment(
-      aes(x = locus, xend = locus, yend = abs(effect)),
+    ggplot2::ggplot() +
+    ggplot2::geom_segment(
+      ggplot2::aes(x = locus, xend = locus, yend = abs(effect)),
       y = 0,
       color = "steelblue"
     ) +
-    ylab(parse(text = "'|'*eta*'|'"))
+    ggplot2::ylab(parse(text = "'|'*eta*'|'"))
 
   if (rm_x) plot <- plot + rm_axis("x")
 

@@ -1,17 +1,48 @@
+#' Plot a gene network
+#'
+#' Plots a gene regulatory network with a semi-circular layout. Good for
+#' plotting on top of genome scans. Interaction weights are mapped to
+#' edge transparency.
+#'
+#' @param arch A \code{tbl_graph} containing the genetic architecture (the
+#' output of \code{read_architecture} passed through
+#' \code{tidyrgraph::as_tbl_graph})
+#' @param trait Name of the trait for which to show the network (as it appears
+#' in \code{arch})
+#' @param xaxis What to show on the x-axis. Either of "location" for genomic
+#' location (continuous between 0 and 1) or "locus" for locus index.
+#'
+#' @return A ggraph
+#'
+#' @seealso \code{read_architecture}, \code{tidygraph::as_tbl_graph}
+#'
+#' @examples
+#'
+#' root <- system.file("extdata", "sim-example", package = "speciomer")
+#' arch <- read_architecture(root)
+#' arch <- tidygraph::as_tbl_graph(arch)
+#' plot_network(arch, trait = 1)
+#'
+#' @export
+
 # Function to plot a gene network
 plot_network <- function(arch, trait, xaxis = "location") {
 
-  if (xaxis == "location") arch <- arch %>% mutate(locus = location)
+  if (xaxis == "location") arch <- arch %>% dplyr::mutate(locus = location)
 
   curr_trait <- trait
   color <- trait_colors()[trait]
 
   # Plot the network
   arch %>%
-    filter(trait == curr_trait) %>%
-    ggraph(layout = 'linear', sort.by = locus, use.numeric = TRUE) +
-    geom_edge_arc(aes(alpha = abs(weight)), color = color, fold = TRUE) +
-    labs(edge_alpha = parse(text = "'|'*omega*'|'")) +
-    theme(legend.position = "left")
+    dplyr::filter(trait == curr_trait) %>%
+    ggraph::ggraph(layout = 'linear', sort.by = locus, use.numeric = TRUE) +
+    ggraph::geom_edge_arc(
+      ggplot2::aes(alpha = abs(weight)),
+      color = color,
+      fold = TRUE
+    ) +
+    ggplot2::labs(edge_alpha = parse(text = "'|'*omega*'|'")) +
+    ggplot2::theme(legend.position = "left")
 
 }

@@ -1,21 +1,45 @@
+#' Plot locus degrees
+#'
+#' Barplot of the degrees of loci across the genome.
+#'
+#' @param arch A data frame containing locus-wise genetic architecture
+#' data (see \code{?read_architecture})
+#' @param xaxis What to show on the x-axis. Either of "location" for genomic
+#' location (continuous between 0 and 1) or "locus" for locus index.
+#' @param rm_x Whether to remove the x-axis entirely
+#'
+#' @return A ggplot
+#'
+#' @seealso \code{read_architecture}
+#'
+#' @examples
+#'
+#' root <- system.file("extdata", "sim-example", package = "speciomer")
+#' arch <- read_architecture(root)$nodes
+#' plot_degrees(arch)
+#'
+#' @export
+
 # Function to plot gene degrees
 plot_degrees <- function(arch, xaxis = "location", rm_x = TRUE) {
 
-  if (xaxis == "location") arch <- arch %>% mutate(locus = location)
+  if (xaxis == "location") arch <- arch %>% dplyr::mutate(locus = location)
 
   # Plot degrees
   plot <- arch %>%
-    ggplot() +
-    geom_segment(
-      aes(x = locus, xend = locus, yend = degree),
+    ggplot2::ggplot() +
+    ggplot2::geom_segment(
+      ggplot2::aes(x = locus, xend = locus, yend = degree),
       y = 0,
       color = "firebrick"
     ) +
-    theme(
-      axis.title.x = element_blank(), axis.ticks.x = element_blank(),
-      axis.line.x = element_blank(), axis.text.x = element_blank()
+    ggplot2::theme(
+      axis.title.x = ggplot2::element_blank(),
+      axis.ticks.x = ggplot2::element_blank(),
+      axis.line.x = ggplot2::element_blank(),
+      axis.text.x = ggplot2::element_blank()
     ) +
-    ylab("Degree")
+    ggplot2::ylab("Degree")
 
   if (rm_x) plot <- plot + rm_axis("x")
 

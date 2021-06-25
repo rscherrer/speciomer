@@ -11,6 +11,9 @@
 #' (the output of \code{read_architecture})
 #' @param time Which time point to plot the variables for in the genome scans.
 #' @param trait Which trait to show the network for (1, 2 or 3)
+#' @param trait_data Data frame with individual-wise trait data
+#' (see \code{?read_indviduals}). If provided, a histogram of ecological trait
+#' values at the specified time point will be added to the patchwork.
 #'
 #' @return A patchwork
 #'
@@ -19,7 +22,7 @@
 #'
 #' @seealso \code{read_architecture}, \code{read_loci}, \code{plot_genome_scan},
 #' \code{plot_barcode}, \code{plot_effect_sizes}, \code{plot_degrees},
-#' \code{plot_network}
+#' \code{plot_network}, \code{read_individuals}, \code{plot_eco_trait_histogram}
 #'
 #' @examples
 #'
@@ -35,7 +38,7 @@
 #' @export
 
 # Function to plot a complete genome scan at a given time
-plot_full_scan <- function(data, grn, time, trait) {
+plot_full_scan <- function(data, grn, time, trait, trait_data = NULL) {
 
   curr_trait <- trait
 
@@ -64,10 +67,18 @@ plot_full_scan <- function(data, grn, time, trait) {
   network_plot <- plot_network(tidygraph::as_tbl_graph(grn), trait = curr_trait)
 
   # Combine all layers of the plot
-  patchwork::wrap_plots(
+  plot <- patchwork::wrap_plots(
     network_plot, degree_plot, effect_size_plot, barcode, genome_fst_scan,
     genome_qst_scan, genome_cst_scan, genome_freq_scan, genome_alpha_scan,
     heights = c(5, 2, 2, 1, 2, 2, 2, 2, 2), guides = "collect"
   )
+
+  if (is.null(trait_data)) return(plot)
+
+  # Add trait histogram if needed
+  eco_trait_hist <- plot_eco_trait_histogram(trait_data, time = time) +
+    ggplot2::xlim(-5, 5)
+
+  patchwork::wrap_plots(eco_trait_hist, plot, ncol = 1, heights = c(1, 10))
 
 }

@@ -4,7 +4,7 @@
 \alias{plot_full_scan}
 \title{Plot extended genome scan}
 \usage{
-plot_full_scan(data, grn, time, trait)
+plot_full_scan(data, grn, time, trait, trait_data = NULL)
 }
 \arguments{
 \item{data}{A data frame containing locus-specific data (see
@@ -16,6 +16,10 @@ plot_full_scan(data, grn, time, trait)
 \item{time}{Which time point to plot the variables for in the genome scans.}
 
 \item{trait}{Which trait to show the network for (1, 2 or 3)}
+
+\item{trait_data}{Data frame with individual-wise trait data
+(see \code{?read_indviduals}). If provided, a histogram of ecological trait
+values at the specified time point will be added to the patchwork.}
 }
 \value{
 A patchwork
@@ -45,5 +49,5 @@ plot_full_scan(data, grn, time = -1000, trait = 1)
 \seealso{
 \code{read_architecture}, \code{read_loci}, \code{plot_genome_scan},
 \code{plot_barcode}, \code{plot_effect_sizes}, \code{plot_degrees},
-\code{plot_network}
+\code{plot_network}, \code{read_individuals}
 }

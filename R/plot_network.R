@@ -14,6 +14,9 @@
 #'
 #' @return A ggraph
 #'
+#' @note Somehow the \code{ggraph} library needs to be loaded for this function
+#' to produce the expected output (use \code{library(ggraph)}).
+#'
 #' @seealso \code{read_architecture}, \code{tidygraph::as_tbl_graph}
 #'
 #' @examples
@@ -38,11 +41,11 @@ plot_network <- function(arch, trait, xaxis = "location") {
     dplyr::filter(trait == curr_trait) %>%
     ggraph::ggraph(layout = 'linear', sort.by = locus, use.numeric = TRUE) +
     ggraph::geom_edge_arc(
-      ggplot2::aes(alpha = abs(weight)),
+      mapping = ggplot2::aes(alpha = abs(weight)),
       color = color,
       fold = TRUE
     ) +
     ggplot2::labs(edge_alpha = parse(text = "'|'*omega*'|'")) +
-    ggplot2::theme(legend.position = "left")
+    ggplot2::theme(legend.position = "right")
 
 }

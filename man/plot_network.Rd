@@ -25,6 +25,10 @@ Plots a gene regulatory network with a semi-circular layout. Good for
 plotting on top of genome scans. Interaction weights are mapped to
 edge transparency.
 }
+\note{
+Somehow the \code{ggraph} library needs to be loaded for this function
+to produce the expected output (use \code{library(ggraph)}).
+}
 \examples{
 
 root <- system.file("extdata", "sim-example", package = "speciomer")

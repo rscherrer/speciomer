@@ -4,10 +4,10 @@
 \alias{plot_eco_zoomed}
 \title{Plot zoomed ecological dynamics}
 \usage{
-plot_eco_zoomed(root, root_init)
+plot_eco_zoomed(root, root_init, add_rect = FALSE)
 }
 \arguments{
-\item{root, root_init}{Arguments to pass to \code{plot_eco_trait_zoomed} and
+\item{root, root_init, add_rect}{Arguments to pass to \code{plot_eco_trait_zoomed} and
 \code{plot_eco_alpha_zoomed}}
 }
 \value{

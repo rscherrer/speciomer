@@ -65,8 +65,10 @@ plot_full_scan_from_root <- function(
     )
 
     # Add a time point if needed
-    if (show_time) plot +
+    if (show_time) plot <- plot +
       patchwork::plot_annotation(subtitle = sprintf("Generation %s", time))
+
+    return(plot)
 
   })
 

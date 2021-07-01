@@ -92,8 +92,15 @@ read_individual_genomes <- function(
 
   if (!is.null(individual_variables)) {
 
+    # Add a locus prefix to the variable names if needed
+    individual_variables <- interpret_variable_names(
+      individual_variables, type = "individual"
+    )
+
     # Read extra individual variables
-    individual_data <- read_individuals(root, individual_variables, individual_ncols)
+    individual_data <- read_individuals(
+      root, individual_variables, individual_ncols
+    )
 
     # Add them
     data <- data %>% dplyr::right_join(individual_data)
@@ -101,6 +108,9 @@ read_individual_genomes <- function(
   }
 
   if (!is.null(locus_variables)) {
+
+    # Add a locus prefix to the variable names if needed
+    locus_variables <- interpret_variable_names(locus_variables, type = "locus")
 
     # Read extra locus variables
     locus_data <- read_loci(root, locus_variables, locus_architecture)

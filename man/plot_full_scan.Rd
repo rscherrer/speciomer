@@ -49,5 +49,5 @@ plot_full_scan(data, grn, time = -1000, trait = 1)
 \seealso{
 \code{read_architecture}, \code{read_loci}, \code{plot_genome_scan},
 \code{plot_barcode}, \code{plot_effect_sizes}, \code{plot_degrees},
-\code{plot_network}, \code{read_individuals}
+\code{plot_network}, \code{read_individuals}, \code{plot_eco_trait_histogram}
 }

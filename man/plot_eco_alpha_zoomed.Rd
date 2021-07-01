@@ -4,7 +4,7 @@
 \alias{plot_eco_alpha_zoomed}
 \title{Plot ecological average mutational effects at different times}
 \usage{
-plot_eco_alpha_zoomed(root, root_init)
+plot_eco_alpha_zoomed(root, root_init, add_rect = FALSE)
 }
 \arguments{
 \item{root}{Path to the simulation folder}
@@ -13,6 +13,9 @@ plot_eco_alpha_zoomed(root, root_init)
 simulation that is the equivalent of \code{root}, but simulated only for
 a few thousand generations and with a high recording resolution. This
 allows us to see what is happening in detail in the early steps.}
+
+\item{add_rect}{Whether to add a shading rectangle on the left facet to
+indicate what part of the plot is zoomed in, in the right facet.}
 }
 \value{
 A ggplot

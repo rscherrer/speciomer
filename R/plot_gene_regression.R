@@ -1,0 +1,70 @@
+#' Plot genetic values against genotypes at a certain locus
+#'
+#' Plots the regression of genetic values against allele counts (genotypes) for
+#' a particular locus, facetted by time point. Genetic values are represented
+#' both by boxplots and dots (individuals are binned by genetic value such that
+#  genetic values with more individuals appear bigger), colored by ecotype.
+#'
+#' @param data Individual whole genome data with information about individual
+#' ecotypes (\code{read_individual_genomes} with \code{individual_trait =
+#' "ecotypes"}).
+#' @param locus Index of the locus to plot
+#'
+#' @return A ggplot
+#'
+#' @seealso \code{read_individual_genomes}
+#'
+#' @examples
+#'
+#' root <- system.file("extdata", "sim-indiv-genomes", package = "speciomer")
+#' data <- read_individual_genomes(root, individual_variables = "ecotypes")
+#' plot_gene_regression(data, locus = 1)
+#'
+#' @export
+
+# Function to plot a regression of genetic values against genotype
+plot_gene_regression <- function(data, locus) {
+
+  curr_locus <- locus
+
+  # Bin by genetic value to avoid crowding of the plot
+  data_binned <- data %>%
+    dplyr::filter(locus == curr_locus) %>%
+    dplyr::mutate(
+      time_lab = factor(
+        paste0("t = ", time),
+        levels = paste0("t = ", unique(time))
+      )
+    ) %>%
+    dplyr::group_by(time, time_lab, genotype, ecotype, genvalue) %>%
+    dplyr::summarize(n = dplyr::n())
+
+  # Plot genetic values against genotype at various time points
+  data %>%
+    dplyr::filter(locus == curr_locus) %>%
+    dplyr::mutate(
+      time_lab = factor(
+        paste0("t = ", time),
+        levels = paste0("t = ", unique(time))
+      )
+    ) %>%
+    ggplot2::ggplot(
+      ggplot2::aes(x = factor(genotype), y = genvalue, fill = factor(ecotype))
+    ) +
+    ggplot2::geom_jitter(
+      data = data_binned,
+      mapping = ggplot2::aes(size = n),
+      shape = 21,
+      alpha = 0.3,
+      position = ggplot2::position_jitterdodge(
+        jitter.width = 0.2, dodge.width = 0.7
+      )
+    ) +
+    ggplot2::geom_boxplot(outlier.color = NA) +
+    ggplot2::scale_fill_manual(values = ecotype_colors()) +
+    ggplot2::xlab("Allele count") +
+    ggplot2::ylab("Genetic value") +
+    ggplot2::labs(fill = "Ecotype", size = "Count") +
+    ggplot2::facet_wrap(. ~ time_lab)
+
+}

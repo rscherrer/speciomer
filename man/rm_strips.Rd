@@ -4,7 +4,10 @@
 \alias{rm_strips}
 \title{Remove facet strips from a ggplot}
 \usage{
-rm_strips()
+rm_strips(axis = "xy")
+}
+\arguments{
+\item{axis}{Which axis to remove facets along? Either of "x", "y" or "xy".}
 }
 \description{
 Remove facet strips from a ggplot

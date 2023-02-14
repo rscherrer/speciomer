@@ -35,3 +35,7 @@ The purpose of the package is to produce tibbles (a type of table in R) from raw
 ![overview](extra/overview.png)
 
 where *T* is the number of time points, *N* is the number of individuals, *L* is the number of loci and *E* is the number of edges. Note that the number of individuals can change from one time point to the next, our usage of a seemingly constant *N* here is only for illustratory purpose.
+
+## Permissions
+
+Copyright (c) Raphael Scherrer, 2023 (open source license will be added upon publication).

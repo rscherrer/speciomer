@@ -1,6 +1,6 @@
 # speciomer
 
-This is an R package to deal with the output of the `speciome` simulations (see [here](https://github.com/rscherrer/speciome)).
+R package to read the output of [speciome](https://github.com/rscherrer/speciome).
 
 <!-- badges: start -->
 [![R-CMD-check](https://github.com/rscherrer/speciomer/workflows/R-CMD-check/badge.svg)](https://github.com/rscherrer/speciomer/actions)

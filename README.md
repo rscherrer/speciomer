@@ -8,15 +8,30 @@ R package to read the output of [speciome](https://github.com/rscherrer/speciome
 
 ## Prerequisites
 
-## About
+* [R](https://rstudio-education.github.io/hopr/starting.html) version 3.6.3 or higher
+* (optional) [RStudio](https://rstudio-education.github.io/hopr/starting.html)
 
-This package was developed in R 3.6.3.
+## Install
 
-## Installation
+### R
 
-You can install the package form within R by running `devtools::install_github("rscherrer/speciomer")`, if you have `devtools` installed. 
+```r
+install.packages("devtools")
+devtools::install_github("rscherrer/speciomer")
+```
 
-Alternatively, you can download this repository and build the package from source by running in a terminal `R CMD build speciomer` from a directory that contains the repository. You can also open the `speciomer.Rproj` project in RStudio and install the package by clicking on "Install and Restart" in the "Build" menu.
+### Command line
+
+```shell
+git clone git@github.com:rscherrer/speciomer.git # download the repository
+R CMD build speciomer
+```
+
+### RStudio
+
+* Download the repository
+* Open `speciomer.Rproj` with RStudio
+* Click on "Install and Restart" in the "Build" menu
 
 ## Use
 

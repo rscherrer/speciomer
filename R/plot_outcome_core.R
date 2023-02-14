@@ -137,7 +137,7 @@ plot_outcome_core <- function(
     row4 <- patchwork::wrap_plots(cst_plot, cst_hist, ncol = 2, widths = c(4, 1))
     row5 <- patchwork::wrap_plots(freq_plot, freq_hist, ncol = 2, widths = c(4, 1))
 
-    return(patchwork::wrap_plots(row1, row2, row3, row4, row4, row6, ncol = 1))
+    return(patchwork::wrap_plots(row1, row2, row3, row4, row5, row6, ncol = 1))
 
   }
 

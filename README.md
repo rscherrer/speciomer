@@ -6,6 +6,8 @@ R package to read the output of [speciome](https://github.com/rscherrer/speciome
 [![R-CMD-check](https://github.com/rscherrer/speciomer/workflows/R-CMD-check/badge.svg)](https://github.com/rscherrer/speciomer/actions)
 <!-- badges: end -->
 
+## Prerequisites
+
 ## About
 
 This package was developed in R 3.6.3.

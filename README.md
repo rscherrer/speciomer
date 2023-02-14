@@ -13,31 +13,24 @@ R package to read the output of [speciome](https://github.com/rscherrer/speciome
 
 ## Install
 
-### From within R
+From within R, use
 
 ```r
 install.packages("devtools") # to install devtools
-devtools::install_github("rscherrer/speciomer")
+devtools::install_github("rscherrer/speciomer", build_vignettes = TRUE) # install and build the vignette
 ```
-
-### From the command line
-
-```shell
-git clone git@github.com:rscherrer/speciomer.git # download the repository
-R CMD build speciomer
-```
-
-### With RStudio
-
-* Download the repository
-* Open `speciomer.Rproj` with RStudio
-* Click on "Install and Restart" in the "Build" menu
 
 ## Use
 
-Check out the vignette, which you can build upon installation, either by running `devtools::build()` from within the package in the R console after the package has been downloaded, or by using `devtools::install_github("rscherrer/speciomer", build_vignettes = TRUE)` when installing the package.
+Usage is exemplified in the vignette. View the vignette in your browser by typing, in R:
 
-The purpose of the package is to produce tibbles (a type of table in R) from raw simulation data. The tibbles can be of different dimensions depending on the data they record. Here we outline the different tibbles that can be produced for a given simulation, which function to use for each of them as well as their dimensions.
+```r
+browseVignettes("speciomer")
+```
+
+and clicking on the HTML link.
+
+The purpose of the package is to produce tibbles (a type of table in R) from raw simulation data. The tibbles can be of different dimensions depending on the data they record. Here we outline the different tibbles that can be produced for a given simulation, which function to use for each of them as well as their dimensions:
 
 ![overview](extra/overview.png)
 

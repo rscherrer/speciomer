@@ -13,25 +13,21 @@ R package to read the output of [speciome](https://github.com/rscherrer/speciome
 
 ## Install
 
-### R
-
-From within R:
+### From within R
 
 ```r
 install.packages("devtools") # to install devtools
 devtools::install_github("rscherrer/speciomer")
 ```
 
-### Command line
-
-Open a terminal and type:
+### From the command line
 
 ```shell
 git clone git@github.com:rscherrer/speciomer.git # download the repository
 R CMD build speciomer
 ```
 
-### RStudio
+### With RStudio
 
 * Download the repository
 * Open `speciomer.Rproj` with RStudio

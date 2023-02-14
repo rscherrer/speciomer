@@ -15,12 +15,16 @@ R package to read the output of [speciome](https://github.com/rscherrer/speciome
 
 ### R
 
+From within R:
+
 ```r
-install.packages("devtools")
+install.packages("devtools") # to install devtools
 devtools::install_github("rscherrer/speciomer")
 ```
 
 ### Command line
+
+Open a terminal and type:
 
 ```shell
 git clone git@github.com:rscherrer/speciomer.git # download the repository

@@ -24,7 +24,7 @@
 plot_traits_from_root <- function(root, burnin_bar = TRUE) {
 
   # Read trait data
-  data <- read_individuals(root, "individual_traits", ncol = 3)
+  data <- read_individuals(root, "individual_traits", ncols = 3)
 
   # Plot them
   plot_traits(data, burnin_bar)

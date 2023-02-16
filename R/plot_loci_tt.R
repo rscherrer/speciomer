@@ -28,10 +28,12 @@
 # Function to plot loci through time
 plot_loci_tt <- function(data, variable, burnin_bar = TRUE) {
 
+  .data <- NULL # hack for check to pass
+
   plot <- data %>%
-    ggplot2::ggplot(ggplot2::aes(x = time / 1000)) +
+    ggplot2::ggplot(ggplot2::aes(x = .data$time / 1000)) +
     ggplot2::geom_line(
-      mapping = ggplot2::aes(group = locus, y = get(variable), color = trait),
+      mapping = ggplot2::aes(group = .data$locus, y = get(variable), color = .data$trait),
       alpha = 0.3
     ) +
     ggplot2::facet_grid(. ~ trait) +

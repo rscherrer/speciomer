@@ -23,6 +23,8 @@
 # Function to plot ecological alpha at different time windows
 plot_eco_alpha_zoomed <- function(root, root_init, add_rect = FALSE) {
 
+  .data <- NULL # hack for check to pass
+
   # Read trait data from the main simulation
   data <- read_loci(root, "alpha")
 
@@ -33,7 +35,7 @@ plot_eco_alpha_zoomed <- function(root, root_init, add_rect = FALSE) {
   data <- purrr::map_dfr(list(data, data_init), ~ .x, .id = "zoom")
 
   # Keep only the ecological trait
-  data <- data %>% dplyr::filter(trait == 1)
+  data <- data %>% dplyr::filter(.data$trait == 1)
 
   # Rename the different zooming levels
   zoom_numbers <- as.character(1:2)
@@ -42,8 +44,8 @@ plot_eco_alpha_zoomed <- function(root, root_init, add_rect = FALSE) {
 
   # Do not forget to update their order so they are plotted the right way
   data <- data %>% dplyr::mutate(
-    zoom = forcats::fct_recode(zoom, !!!zoom_numbers),
-    zoom = factor(zoom, levels = zoom_names)
+    zoom = forcats::fct_recode(.data$zoom, !!!zoom_numbers),
+    zoom = factor(.data$zoom, levels = zoom_names)
   )
 
   # Create a small data frame with intercept values for the vertical lines at zero
@@ -71,7 +73,8 @@ plot_eco_alpha_zoomed <- function(root, root_init, add_rect = FALSE) {
     plot <- plot + ggplot2::geom_rect(
       data = rect_data,
       mapping = ggplot2::aes(
-        xmin = xmin, xmax = xmax, ymin = ymin, ymax = ymax
+        xmin = .data$xmin, xmax = .data$xmax,
+        ymin = .data$ymin, ymax = .data$ymax
       ),
       color = NA,
       fill = "gray90"
@@ -82,7 +85,7 @@ plot_eco_alpha_zoomed <- function(root, root_init, add_rect = FALSE) {
   # Finish the plot
   plot <- plot +
     ggplot2::geom_line(
-      mapping = ggplot2::aes(x = time / 1000, y = alpha, group = locus),
+      mapping = ggplot2::aes(x = .data$time / 1000, y = .data$alpha, group = .data$locus),
       color = "forestgreen", alpha = 0.3
     ) +
     ggplot2::facet_grid(. ~ zoom, scales = "free_x") +
@@ -90,7 +93,7 @@ plot_eco_alpha_zoomed <- function(root, root_init, add_rect = FALSE) {
     ggplot2::ylab(parse(text = "alpha")) +
     ggplot2::geom_vline(
       data = vline_data,
-      mapping = ggplot2::aes(xintercept = xintercept),
+      mapping = ggplot2::aes(xintercept = .data$xintercept),
       linetype = 4
     )
 

@@ -31,17 +31,19 @@
 # Function to plot a gene network
 plot_network <- function(arch, trait, xaxis = "location") {
 
-  if (xaxis == "location") arch <- arch %>% dplyr::mutate(locus = location)
+  .data <- NULL # hack for check to pass
+
+  if (xaxis == "location") arch <- arch %>% dplyr::mutate(locus = .data$location)
 
   curr_trait <- trait
   color <- trait_colors()[trait]
 
   # Plot the network
   arch %>%
-    dplyr::filter(trait == curr_trait) %>%
-    ggraph::ggraph(layout = 'linear', sort.by = locus, use.numeric = TRUE) +
+    dplyr::filter(.data$trait == curr_trait) %>%
+    ggraph::ggraph(layout = 'linear', sort.by = .data$locus, use.numeric = TRUE) +
     ggraph::geom_edge_arc(
-      mapping = ggplot2::aes(alpha = abs(weight)),
+      mapping = ggplot2::aes(alpha = abs(.data$weight)),
       color = color,
       fold = TRUE
     ) +

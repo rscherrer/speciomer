@@ -26,19 +26,21 @@ plot_genome_scan <- function(
   data, variable, time, xaxis = "location", ylab_parsed = NULL, rm_x = TRUE
 ) {
 
+  .data <- NULL # hack for check to pass
+
   curr_time <- time
 
   if (is.null(ylab_parsed)) ylab_parsed <- paste0("'", variable, "'")
-  if (xaxis == "location") data <- data %>% dplyr::mutate(locus = location)
+  if (xaxis == "location") data <- data %>% dplyr::mutate(locus = .data$location)
 
   # Genome scan plot
   plot <- data %>%
-    dplyr::filter(time == curr_time) %>%
-    ggplot2::ggplot(ggplot2::aes(x = locus)) +
+    dplyr::filter(.data$time == curr_time) %>%
+    ggplot2::ggplot(ggplot2::aes(x = .data$locus)) +
     ggplot2::geom_ribbon(
       mapping = ggplot2::aes(
-        xmin = locus, xmax = locus, ymax = get(variable), group = chromosome,
-        fill = as.character(chromosome)
+        xmin = .data$locus, xmax = .data$locus, ymax = get(variable), group = .data$chromosome,
+        fill = as.character(.data$chromosome)
       ),
       ymin = 0
     ) +

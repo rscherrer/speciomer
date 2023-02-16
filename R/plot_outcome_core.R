@@ -47,18 +47,20 @@ plot_outcome_core <- function(
   approx = NULL
 ) {
 
+  .data <- NULL # hack for check to pass
+
   # Read trait data
   trait_data <- read_individuals(root, "traits", ncols = 3)
 
   # Change the time points if needed
   if (!is.null(true_start)) trait_data <- trait_data %>%
-      dplyr::mutate(time = time + true_start - min(time))
+      dplyr::mutate(time = .data$time + true_start - min(.data$time))
 
   if (is.null(from)) from <- min(unique(trait_data$time))
   if (is.null(to)) to <- max(unique(trait_data$time))
 
   # Keep only the range of interest
-  trait_data <- trait_data %>% dplyr::filter(time >= from, time <= to)
+  trait_data <- trait_data %>% dplyr::filter(.data$time >= from, .data$time <= to)
 
   # Should we plot the burn-in bar?
   burnin_bar <- from <= 0 & to >= 0
@@ -74,17 +76,17 @@ plot_outcome_core <- function(
 
   # Read genome data
   genome_data <- read_loci(root, variables) %>%
-    dplyr::mutate(trait = recode_traits(trait))
+    dplyr::mutate(trait = recode_traits(.data$trait))
 
   # Change the time points if needed
   if (!is.null(true_start)) genome_data <- genome_data %>%
-    dplyr::mutate(time = time + true_start - min(time))
+    dplyr::mutate(time = .data$time + true_start - min(.data$time))
 
   # Keep only the range of interest
-  genome_data <- genome_data %>% dplyr::filter(time >= from, time <= to)
+  genome_data <- genome_data %>% dplyr::filter(.data$time >= from, .data$time <= to)
 
   # Subsample
-  genome_data_sub <- genome_data %>% dplyr::filter(time %% by == 0)
+  genome_data_sub <- genome_data %>% dplyr::filter(.data$time %% by == 0)
 
   # Plot loci through time
   if (full) {
@@ -96,7 +98,7 @@ plot_outcome_core <- function(
 
     # Read genome-wise "ST" statistics if needed
     genome_wide_xst_data <- read_traits(root, c("Fst", "Qst", "Cst")) %>%
-      dplyr::mutate(trait = recode_traits(trait))
+      dplyr::mutate(trait = recode_traits(.data$trait))
 
     # Add average to some of the plots
     fst_plot <- fst_plot + add_line(genome_wide_xst_data, "Fst")
@@ -104,10 +106,10 @@ plot_outcome_core <- function(
     cst_plot <- cst_plot + add_line(genome_wide_xst_data, "Cst")
 
     # Histograms
-    fst_hist <- genome_data_sub %>% plot_density("Fst", time = dplyr::last(.$time)) + ggplot2::ylab(parse(text = "F[ST]"))
-    qst_hist <- genome_data_sub %>% plot_density("Qst", time = dplyr::last(.$time)) + ggplot2::ylab(parse(text = "Q[ST]"))
-    cst_hist <- genome_data_sub %>% plot_density("Cst", time = dplyr::last(.$time)) + ggplot2::ylab(parse(text = "C[ST]"))
-    freq_hist <- genome_data_sub %>% plot_density("freq", time = dplyr::last(.$time)) + ggplot2::ylab(parse(text = "p"))
+    fst_hist <- genome_data_sub %>% plot_density("Fst", time = dplyr::last(.data$.$time)) + ggplot2::ylab(parse(text = "F[ST]"))
+    qst_hist <- genome_data_sub %>% plot_density("Qst", time = dplyr::last(.data$.$time)) + ggplot2::ylab(parse(text = "Q[ST]"))
+    cst_hist <- genome_data_sub %>% plot_density("Cst", time = dplyr::last(.data$.$time)) + ggplot2::ylab(parse(text = "C[ST]"))
+    freq_hist <- genome_data_sub %>% plot_density("freq", time = dplyr::last(.data$.$time)) + ggplot2::ylab(parse(text = "p"))
 
     # Customize the histograms
     fst_hist <- fst_hist + rm_axis("y") + rm_strips() + ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(n = 3))
@@ -119,7 +121,7 @@ plot_outcome_core <- function(
 
   # Same but for alpha
   alpha_plot <- genome_data_sub %>% plot_loci_tt("alpha", burnin_bar = burnin_bar) + ggplot2::ylab(parse(text = "alpha")) + rm_strips()
-  alpha_hist <- genome_data_sub %>% plot_density("alpha", time = dplyr::last(.$time)) + ggplot2::ylab(parse(text = "alpha"))
+  alpha_hist <- genome_data_sub %>% plot_density("alpha", time = dplyr::last(.data$.$time)) + ggplot2::ylab(parse(text = "alpha"))
   alpha_hist <- alpha_hist + rm_axis("y") + rm_strips() + ggplot2::scale_x_continuous(breaks = scales::pretty_breaks(n = 3))
 
   # Separate trait plot from its legend

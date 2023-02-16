@@ -18,6 +18,8 @@
 
 read_architecture <- function(root) {
 
+  .data <- NULL # hack for check to pass
+
   # Architecture file name
   arch_file_name <- paste0(root, "/architecture.txt")
 
@@ -82,7 +84,7 @@ read_architecture <- function(root) {
     colnames(curr_network) <- c("from", "to", "weight")
 
     # Correct indexing of loci
-    curr_network <- curr_network %>% dplyr::mutate(from = from + 1, to = to + 1)
+    curr_network <- curr_network %>% dplyr::mutate(from = .data$from + 1, to = .data$to + 1)
 
     # Add a column for the trait
     curr_network <- curr_network %>%
@@ -98,11 +100,11 @@ read_architecture <- function(root) {
 
   # Additional locus-wise data from the network
   nodes_extra <- edges %>%
-    tidyr::pivot_longer(cols = c(from, to), values_to = "locus") %>%
-    dplyr::group_by(locus) %>%
+    tidyr::pivot_longer(cols = c(.data$from, .data$to), values_to = "locus") %>%
+    dplyr::group_by(.data$locus) %>%
     dplyr::summarize(
       degree = dplyr::n(),
-      max_abs_weight = max(abs(weight))
+      max_abs_weight = max(abs(.data$weight))
     )
 
   # Add them

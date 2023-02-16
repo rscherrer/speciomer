@@ -11,9 +11,9 @@ plot_full_scan_from_root(root, times, show_traits = TRUE, show_time = FALSE)
 
 \item{times}{The time points to plot}
 
-\item{show_time}{Whether to show the time point on each plot}
+\item{show_traits}{Whether to show a histogram of ecological trait values too}
 
-\item{show_hist}{Whether to show a histogram of ecological trait values too}
+\item{show_time}{Whether to show the time point on each plot}
 }
 \value{
 A list of ggplots (or a single ggplot if only one time point is

@@ -27,11 +27,13 @@
 # Function to plot the density of a genetic variable
 plot_density <- function(data, variable, time, bins = 20) {
 
+  .data <- NULL # hack for check to pass
+
   curr_time <- time
 
   data %>%
     dplyr::filter(time == curr_time) %>%
-    ggplot2::ggplot(ggplot2::aes(y = get(variable), fill = trait)) +
+    ggplot2::ggplot(ggplot2::aes(y = get(variable), fill = .data$trait)) +
     ggplot2::geom_histogram(alpha = 0.5, position = "identity", bins = bins) +
     ggplot2::scale_fill_manual(values = trait_colors()) +
     ggplot2::theme(legend.position = "none") +

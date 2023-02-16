@@ -26,9 +26,11 @@
 # Function to read locus-wise data on a per-edge basis
 read_loci_by_edge <- function(root, variables) {
 
+  .data <- NULL # hack for check to pass
+
   # Read locus-wise data, nested by locus
   data <- read_loci(root, variables) %>%
-    dplyr::group_by(locus) %>%
+    dplyr::group_by(.data$locus) %>%
     tidyr::nest()
 
   # Load the network architecture
@@ -37,10 +39,10 @@ read_loci_by_edge <- function(root, variables) {
   # Extract data for the two partners of each edge
   arch %>%
     dplyr::mutate(
-      from_ = purrr::map(from, get_locus_data_n, data, variables, add_time = TRUE),
-      to_ = purrr::map(to, get_locus_data_n, data, variables, add_time = FALSE)
+      from_ = purrr::map(.data$from, get_locus_data_n, data, variables, add_time = TRUE),
+      to_ = purrr::map(.data$to, get_locus_data_n, data, variables, add_time = FALSE)
     ) %>%
-    tidyr::unnest(c(from_, to_), names_sep = "") %>%
+    tidyr::unnest(c(.data$from_, .data$to_), names_sep = "") %>%
     dplyr::rename(time = "from_time")
 
 }

@@ -23,13 +23,15 @@
 # Function to plot gene degrees
 plot_degrees <- function(arch, xaxis = "location", rm_x = TRUE) {
 
-  if (xaxis == "location") arch <- arch %>% dplyr::mutate(locus = location)
+  .data <- NULL # hack for check to pass
+
+  if (xaxis == "location") arch <- arch %>% dplyr::mutate(locus = .data$location)
 
   # Plot degrees
   plot <- arch %>%
     ggplot2::ggplot() +
     ggplot2::geom_segment(
-      ggplot2::aes(x = locus, xend = locus, yend = degree),
+      ggplot2::aes(x = .data$locus, xend = .data$locus, yend = .data$degree),
       y = 0,
       color = "firebrick"
     ) +

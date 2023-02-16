@@ -25,12 +25,14 @@
 # Function to plot the traits encoded by each locus
 plot_barcode <- function(arch, xaxis = "location", size = 0.1) {
 
-  if (xaxis == "location") arch <- arch %>% dplyr::mutate(locus = location)
+  .data <- NULL # hack for check to pass
+
+  if (xaxis == "location") arch <- arch %>% dplyr::mutate(locus = .data$location)
 
   # Barcode plot
   arch %>%
-    dplyr::select(locus, trait) %>%
-    ggplot2::ggplot(ggplot2::aes(x = locus, xend = locus, color = trait)) +
+    dplyr::select(.data$locus, .data$trait) %>%
+    ggplot2::ggplot(ggplot2::aes(x = .data$locus, xend = .data$locus, color = .data$trait)) +
     ggplot2::geom_segment(y = 0, yend = 1, size = size) +
     ggplot2::scale_color_manual(values = trait_colors()) +
     ggplot2::theme_void() +

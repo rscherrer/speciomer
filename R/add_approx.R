@@ -27,18 +27,20 @@
 # Function to add deterministic approximation lines
 add_approx <- function(path) {
 
+  .data <- NULL # hack for check to pass
+
   # Load the deterministic simulation data
   approx_data <- readRDS(path)
 
   # Reformat the dataset
   approx_data <- approx_data %>%
-    tidyr::pivot_longer(c(x1, x2), names_to = "ecotype") %>%
+    tidyr::pivot_longer(c(.data$x1, .data$x2), names_to = "ecotype") %>%
     dplyr::mutate(trait = "Ecological")
 
   # Add lines corresponding to the deterministic simulation
   ggplot2::geom_line(
     data = approx_data,
-    mapping = ggplot2::aes(x = time / 1000, y = value, group = ecotype)
+    mapping = ggplot2::aes(x = .data$time / 1000, y = .data$value, group = .data$ecotype)
   )
 
 }

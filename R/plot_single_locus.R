@@ -31,6 +31,8 @@
 # Function to plot a single locus through time against the rest
 plot_single_locus <- function(data, locus) {
 
+  .data <- NULL # hack for check to pass
+
   curr_locus <- locus
 
   # What trait does the locus code for?
@@ -41,29 +43,29 @@ plot_single_locus <- function(data, locus) {
 
   # Make the plots
   data %>%
-    dplyr::filter(trait == curr_trait) %>%
+    dplyr::filter(.data$trait == curr_trait) %>%
     tidyr::pivot_longer(
-      c(Fst, alpha, freq, Qst, Cst),
+      c(.data$Fst, .data$alpha, .data$freq, .data$Qst, .data$Cst),
       names_to = "statistic"
     ) %>%
-    dplyr::group_by(time, statistic) %>%
+    dplyr::group_by(.data$time, .data$statistic) %>%
     dplyr::summarize(
-      low = quantile(value, 0.025),
-      high = quantile(value, 0.975),
-      value = value[locus == curr_locus]
+      low = stats::quantile(.data$value, 0.025),
+      high = stats::quantile(.data$value, 0.975),
+      value = .data$value[.data$locus == curr_locus]
     ) %>%
     dplyr::mutate(
       statistic = factor(
-        statistic, levels = c("freq", "Fst", "alpha", "Qst", "Cst")
+        .data$statistic, levels = c("freq", "Fst", "alpha", "Qst", "Cst")
       ),
       statistic = forcats::fct_recode(
-        statistic, "p" = "freq", "F[ST]" = "Fst", "alpha" = "alpha",
+        .data$statistic, "p" = "freq", "F[ST]" = "Fst", "alpha" = "alpha",
         "Q[ST]" = "Qst", "C[ST]" = "Cst"
       )
     ) %>%
-    ggplot2::ggplot(ggplot2::aes(x = time / 1000, y = value)) +
+    ggplot2::ggplot(ggplot2::aes(x = .data$time / 1000, y = .data$value)) +
     ggplot2::geom_ribbon(
-      mapping = ggplot2::aes(xmax = time / 1000, ymin = low, ymax = high),
+      mapping = ggplot2::aes(xmax = .data$time / 1000, ymin = .data$low, ymax = .data$high),
       fill = color, alpha = 0.3
     ) +
     ggplot2::geom_line() +

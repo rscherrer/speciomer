@@ -25,35 +25,37 @@
 # Function to plot a regression of genetic values against genotype
 plot_gene_regression <- function(data, locus) {
 
+  .data <- NULL # hack for check to pass
+
   curr_locus <- locus
 
   # Bin by genetic value to avoid crowding of the plot
   data_binned <- data %>%
-    dplyr::filter(locus == curr_locus) %>%
+    dplyr::filter(.data$locus == curr_locus) %>%
     dplyr::mutate(
       time_lab = factor(
-        paste0("t = ", time),
-        levels = paste0("t = ", unique(time))
+        paste0("t = ", .data$time),
+        levels = paste0("t = ", unique(.data$time))
       )
     ) %>%
-    dplyr::group_by(time, time_lab, genotype, ecotype, genvalue) %>%
+    dplyr::group_by(.data$time, .data$time_lab, .data$genotype, .data$ecotype, .data$genvalue) %>%
     dplyr::summarize(n = dplyr::n())
 
   # Plot genetic values against genotype at various time points
   data %>%
-    dplyr::filter(locus == curr_locus) %>%
+    dplyr::filter(.data$locus == curr_locus) %>%
     dplyr::mutate(
       time_lab = factor(
-        paste0("t = ", time),
-        levels = paste0("t = ", unique(time))
+        paste0("t = ", .data$time),
+        levels = paste0("t = ", unique(.data$time))
       )
     ) %>%
     ggplot2::ggplot(
-      ggplot2::aes(x = factor(genotype), y = genvalue, fill = factor(ecotype))
+      ggplot2::aes(x = factor(.data$genotype), y = .data$genvalue, fill = factor(.data$ecotype))
     ) +
     ggplot2::geom_jitter(
       data = data_binned,
-      mapping = ggplot2::aes(size = n),
+      mapping = ggplot2::aes(size = .data$n),
       shape = 21,
       alpha = 0.3,
       position = ggplot2::position_jitterdodge(

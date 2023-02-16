@@ -26,11 +26,13 @@
 # Function to plot individual traits through time
 plot_traits <- function(data, burnin_bar = TRUE) {
 
+  .data <- NULL # hack for check to pass
+
   plot <- data %>%
-    tidyr::pivot_longer(trait1:trait3, names_to = "trait") %>%
-    dplyr::mutate(trait = stringr::str_remove(trait, "trait")) %>%
-    dplyr::mutate(trait = recode_traits(trait)) %>%
-    ggplot2::ggplot(ggplot2::aes(x = time / 1000, y = value)) +
+    tidyr::pivot_longer(.data$trait1:.data$trait3, names_to = "trait") %>%
+    dplyr::mutate(trait = stringr::str_remove(.data$trait, "trait")) %>%
+    dplyr::mutate(trait = recode_traits(.data$trait)) %>%
+    ggplot2::ggplot(ggplot2::aes(x = .data$time / 1000, y = .data$value)) +
     ggplot2::geom_bin2d(bins = 100) +
     ggplot2::facet_grid(. ~ trait) +
     ggplot2::scale_fill_continuous(type = "viridis") +

@@ -3,7 +3,7 @@
 R package to read the output of [speciome](https://github.com/rscherrer/speciome).
 
 <!-- badges: start -->
-[![R-CMD-check](https://github.com/rscherrer/speciomer/workflows/R-CMD-check/badge.svg)](https://github.com/rscherrer/speciomer/actions)
+[![check-release](https://github.com/rscherrer/speciomer/workflows/check-release/badge.svg)](https://github.com/rscherrer/speciomer/actions)
 <!-- badges: end -->
 
 ## Prerequisites

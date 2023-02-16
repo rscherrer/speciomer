@@ -2,3 +2,7 @@ time
 population_sizes
 individual_ecotypes
 locus_Fst
+locus_freq
+locus_Qst
+locus_Cst
+locus_alpha

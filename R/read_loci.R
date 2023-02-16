@@ -27,6 +27,8 @@
 
 read_loci <- function(root, variables, architecture = TRUE) {
 
+  .data <- NULL # hack for check to pass
+
   # Add a locus prefix to the variable names if needed
   variables <- interpret_variable_names(variables, type = "locus")
 
@@ -49,7 +51,7 @@ read_loci <- function(root, variables, architecture = TRUE) {
   # Add a locus identifier
   data <- data %>%
     tibble::add_column(locus = 1, .after = "time") %>%
-    dplyr::group_by(time) %>%
+    dplyr::group_by(.data$time) %>%
     dplyr::mutate(locus = seq(dplyr::n())) %>%
     dplyr::ungroup()
 

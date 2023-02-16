@@ -27,6 +27,8 @@
 
 read_edges <- function(root, variables, architecture = TRUE) {
 
+  .data <- NULL # hack for check to pass
+
   # Add an edge prefix to the variable names if needed
   variables <- interpret_variable_names(variables, type = "edge")
 
@@ -49,7 +51,7 @@ read_edges <- function(root, variables, architecture = TRUE) {
   # Add an edge identifier
   data <- data %>%
     tibble::add_column(edge = 1, .after = "time") %>%
-    dplyr::group_by(time) %>%
+    dplyr::group_by(.data$time) %>%
     dplyr::mutate(edge = seq(dplyr::n())) %>%
     dplyr::ungroup()
 

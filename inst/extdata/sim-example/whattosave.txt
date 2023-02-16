@@ -9,4 +9,8 @@ trait_Cst
 individual_traits
 individual_ecotypes
 locus_Fst
+locus_Cst
+locus_Qst
+locus_freq
+locus_alpha
 edge_corbreed

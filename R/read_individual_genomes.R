@@ -34,6 +34,8 @@ read_individual_genomes <- function(
 
 ) {
 
+  .data <- NULL # hack for check to pass
+
   # Path to the data file
   file_name <- paste0(root, "/individual_whole_genomes.dat")
 
@@ -65,7 +67,7 @@ read_individual_genomes <- function(
 
   # Convert to the locus-wise wide format
   data <- data %>%
-    dplyr::mutate(haplotype = stringr::str_replace(haplotype, "^", "haplotype_")) %>%
+    dplyr::mutate(haplotype = stringr::str_replace(.data$haplotype, "^", "haplotype")) %>%
     tidyr::pivot_wider(names_from = "haplotype", values_from = "allele")
 
   # Read population sizes
@@ -84,7 +86,7 @@ read_individual_genomes <- function(
   data <- data %>% tibble::add_column(time = times, .before = "individual")
 
   # Derive allele counts (genotype) from the alleles
-  data <- data %>% dplyr::mutate(genotype = haplotype_1 + haplotype_2)
+  data <- data %>% dplyr::mutate(genotype = .data$haplotype1 + .data$haplotype2)
 
   # Add genetic values
   genetic_values <- read_binary(paste0(root, "/individual_locus_genvalues.dat"))
@@ -92,8 +94,15 @@ read_individual_genomes <- function(
 
   if (!is.null(individual_variables)) {
 
+    # Add a locus prefix to the variable names if needed
+    individual_variables <- interpret_variable_names(
+      individual_variables, type = "individual"
+    )
+
     # Read extra individual variables
-    individual_data <- read_individuals(root, individual_variables, individual_ncols)
+    individual_data <- read_individuals(
+      root, individual_variables, individual_ncols
+    )
 
     # Add them
     data <- data %>% dplyr::right_join(individual_data)
@@ -101,6 +110,9 @@ read_individual_genomes <- function(
   }
 
   if (!is.null(locus_variables)) {
+
+    # Add a locus prefix to the variable names if needed
+    locus_variables <- interpret_variable_names(locus_variables, type = "locus")
 
     # Read extra locus variables
     locus_data <- read_loci(root, locus_variables, locus_architecture)

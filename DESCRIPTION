@@ -1,10 +1,10 @@
 Package: speciomer
 Type: Package
 Title: Import Speciome Data into R
-Version: 2.2
+Version: 2.2.1
 Author: Raphael Scherrer
 Maintainer: Raphael Scherrer <r.scherrer@rug.nl>
-Description: Read binary speciome simulation data into R. Converts them into tibbles. Also plotting utilities.
+Description: Read speciome simulation data into R. Converts them into tibbles. Also plotting utilities.
 License: GPL-3
 Encoding: UTF-8
 LazyData: true
